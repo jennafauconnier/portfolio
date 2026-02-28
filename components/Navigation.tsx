@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container, Box, IconButton } from '@mui/material';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { useColorMode } from './ThemeRegistry';
@@ -10,6 +11,8 @@ import { useColorMode } from './ThemeRegistry';
 export default function Navigation() {
   const { mode, toggleColorMode } = useColorMode();
   const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +26,15 @@ export default function Navigation() {
   const gradient = mode === 'light' 
     ? 'linear-gradient(90deg, #1e40af 0%, #1e3a8a 50%, #0f172a 100%)'
     : 'linear-gradient(90deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%)';
+
+  const handleNavClick = (sectionId: string) => {
+    if (isHomePage) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <AppBar 
@@ -49,23 +61,35 @@ export default function Navigation() {
             </Typography>
           </Link>
           <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <Link href="#about" style={{ textDecoration: 'none' }}>
-              <Button sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}>
+            <Link href="/#about" style={{ textDecoration: 'none' }}>
+              <Button 
+                onClick={() => handleNavClick('about')}
+                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+              >
                 À propos
               </Button>
             </Link>
-            <Link href="#skills" style={{ textDecoration: 'none' }}>
-              <Button sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}>
+            <Link href="/#skills" style={{ textDecoration: 'none' }}>
+              <Button 
+                onClick={() => handleNavClick('skills')}
+                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+              >
                 Compétences
               </Button>
             </Link>
-            <Link href="#projects" style={{ textDecoration: 'none' }}>
-              <Button sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}>
+            <Link href="/#projects" style={{ textDecoration: 'none' }}>
+              <Button 
+                onClick={() => handleNavClick('projects')}
+                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+              >
                 Projets
               </Button>
             </Link>
-            <Link href="#contact" style={{ textDecoration: 'none' }}>
-              <Button sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}>
+            <Link href="/#contact" style={{ textDecoration: 'none' }}>
+              <Button 
+                onClick={() => handleNavClick('contact')}
+                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+              >
                 Contact
               </Button>
             </Link>
