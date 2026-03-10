@@ -1,6 +1,6 @@
-import { Box, Container, Typography, Grid } from '@mui/material';
-import ProjectCard from './ProjectCard';
-import { Project } from '@/types/project';
+import { Box, Container, Typography, Grid } from "@mui/material";
+import ProjectCard from "./ProjectCard";
+import { Project } from "@/types/project";
 
 interface ProjectsProps {
   projects: Project[];
@@ -8,26 +8,24 @@ interface ProjectsProps {
 
 export default function Projects({ projects }: ProjectsProps) {
   return (
-    <Box
-      id="projects"
-      sx={{
-        py: 8,
-        backgroundColor: 'background.paper',
-      }}
-    >
+    <Box id="projects" sx={{ py: 10, backgroundColor: "transparent" }}>
       <Container maxWidth="lg">
         <Typography
           variant="h3"
           component="h2"
           align="center"
-          gutterBottom
-          sx={{ fontWeight: 'bold', mb: 6 }}
+          sx={{
+            fontWeight: 300,
+            letterSpacing: "-0.02em",
+            mb: 6,
+            color: "#ffffff",
+          }}
         >
           Mes Projets
         </Typography>
         {projects.length === 0 ? (
-          <Typography variant="body1" align="center" color="text.secondary">
-            Aucun projet pour le moment. Ajoutez vos projets dans le dossier content/projects/
+          <Typography variant="body1" align="center" sx={{ color: "#71717a" }}>
+            Aucun projet pour le moment.
           </Typography>
         ) : (
           <Grid container spacing={4}>
@@ -42,4 +40,3 @@ export default function Projects({ projects }: ProjectsProps) {
     </Box>
   );
 }
-

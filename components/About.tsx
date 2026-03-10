@@ -1,58 +1,44 @@
-'use client';
+"use client";
 
-import { Box, Container, Typography, Avatar } from '@mui/material';
-import { useColorMode } from './ThemeRegistry';
+import { Box, Container, Typography, Avatar } from "@mui/material";
 
 export default function About() {
-  const { mode } = useColorMode();
-
-  const gradient = mode === 'light'
-    ? 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 50%, #0f172a 100%)'
-    : 'linear-gradient(135deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%)';
-
   return (
-    <Box
-      id="about"
-      sx={{
-        py: 8,
-        backgroundColor: 'background.paper',
-      }}
-    >
+    <Box id="about" sx={{ py: 10, backgroundColor: "transparent" }}>
       <Container maxWidth="lg">
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
-            alignItems: 'center',
-            gap: 4,
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            gap: 6,
           }}
         >
-          {/* Photo de profil avec bordure dégradé */}
           <Box
             sx={{
-              position: 'relative',
-              '&::before': {
+              position: "relative",
+              "&::before": {
                 content: '""',
-                position: 'absolute',
-                top: -4,
-                left: -4,
-                right: -4,
-                bottom: -4,
-                background: gradient,
-                borderRadius: '50%',
+                position: "absolute",
+                top: -3,
+                left: -3,
+                right: -3,
+                bottom: -3,
+                background: "linear-gradient(135deg, #27272a 0%, #3f3f46 100%)",
+                borderRadius: "50%",
                 zIndex: 0,
               },
             }}
           >
             <Avatar
-              alt="Photo de profil"
+              alt="Jenna Fauconnier"
               src="/images/profile.jpeg"
               sx={{
                 width: { xs: 150, md: 200 },
                 height: { xs: 150, md: 200 },
-                position: 'relative',
+                position: "relative",
                 zIndex: 1,
-                border: mode === 'light' ? '4px solid white' : '4px solid #1e293b',
+                border: "4px solid #000000",
               }}
             />
           </Box>
@@ -61,26 +47,31 @@ export default function About() {
             <Typography
               variant="h3"
               component="h2"
-              gutterBottom
-              sx={{ 
-                fontWeight: 'bold',
-                background: gradient,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+              sx={{
+                fontWeight: 300,
+                letterSpacing: "-0.02em",
+                color: "#ffffff",
+                mb: 3,
               }}
             >
               À propos de moi
             </Typography>
-            <Typography variant="body1" paragraph sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
-              Bonjour ! Je suis une développeuse passionnée par la création d&apos;applications
-              mobiles performantes. Ayant une expertise en React Native / React, TypeScript et
-              Next.js, j'aime aussi énormément penser à l'UX/UI de l'application.
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", lineHeight: 1.8, color: "#d4d4d8" }}
+            >
+              Bonjour ! Je suis une développeuse passionnée par la création
+              d&apos;applications mobiles performantes. Ayant une expertise en
+              React Native / React, TypeScript et Next.js, j&apos;aime aussi
+              énormément penser à l&apos;UX/UI de l&apos;application.
             </Typography>
-            <Typography variant="body1" sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
-              Mon approche combine une attention particulière aux détails avec une
-              volonté constante d&apos;apprendre et d&apos;adopter les meilleures pratiques
-              du développement web.
+            <Typography
+              variant="body1"
+              sx={{ fontSize: "1.1rem", lineHeight: 1.8, color: "#71717a" }}
+            >
+              Mon approche combine une attention particulière aux détails avec
+              une volonté constante d&apos;apprendre et d&apos;adopter les
+              meilleures pratiques du développement web.
             </Typography>
           </Box>
         </Box>

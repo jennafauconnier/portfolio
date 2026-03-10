@@ -1,102 +1,94 @@
-import { Box, Container, Typography, IconButton, Stack } from '@mui/material';
-import EmailIcon from '@mui/icons-material/Email';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import { Box, Container, Typography, IconButton, Stack } from "@mui/material";
+import EmailIcon from "@mui/icons-material/Email";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
 
 export default function Contact() {
   return (
-    <Box
-      id="contact"
-      sx={{
-        py: 8,
-        backgroundColor: 'background.default',
-      }}
-    >
+    <Box id="contact" sx={{ py: 10, backgroundColor: "transparent" }}>
       <Container maxWidth="lg">
         <Typography
           variant="h3"
           component="h2"
           align="center"
-          gutterBottom
-          sx={{ fontWeight: 'bold', mb: 4 }}
+          sx={{
+            fontWeight: 300,
+            letterSpacing: "-0.02em",
+            mb: 3,
+            color: "#ffffff",
+          }}
         >
           Contact
         </Typography>
-        <Typography variant="body1" align="center" paragraph sx={{ fontSize: '1.1rem', mb: 4 }}>
-          Vous avez un projet en tête ou souhaitez simplement discuter ?
-          N&apos;hésitez pas à me contacter !
+        <Typography
+          variant="body1"
+          align="center"
+          sx={{ fontSize: "1.1rem", mb: 5, color: "#71717a" }}
+        >
+          Si vous avez une opportunité à me proposer, ou si vous voulez
+          discuter, n'hésites pas à me contacter !
         </Typography>
-        <Stack direction="row" spacing={2} justifyContent="center">
+        <Stack direction="row" spacing={1.5} justifyContent="center">
           <IconButton
-            href="mailto:votre.email@example.com"
-            size="large"
+            href="mailto:jenna.fauconnier@gmail.com"
+            size="small"
             sx={{
-              background: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)',
-              color: 'white',
-              '&:hover': { 
-                transform: 'scale(1.2)', 
-                transition: 'transform 0.2s',
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
+              backgroundColor: "#18181b",
+              border: "1px solid #27272a",
+              color: "#a1a1aa",
+              padding: "10px",
+              "&:hover": {
+                borderColor: "#3f3f46",
+                color: "#ffffff",
+                transform: "scale(1.1)",
               },
+              transition: "all 0.2s ease",
             }}
           >
-            <EmailIcon fontSize="large" />
+            <EmailIcon fontSize="small" />
           </IconButton>
           <IconButton
             href="https://github.com/jennafauconnier"
             target="_blank"
             rel="noopener noreferrer"
-            size="large"
+            size="small"
             sx={{
-              background: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)',
-              color: 'white',
-              '&:hover': { 
-                transform: 'scale(1.2)', 
-                transition: 'transform 0.2s',
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
+              backgroundColor: "#18181b",
+              border: "1px solid #27272a",
+              color: "#a1a1aa",
+              padding: "10px",
+              "&:hover": {
+                borderColor: "#3f3f46",
+                color: "#ffffff",
+                transform: "scale(1.1)",
               },
+              transition: "all 0.2s ease",
             }}
           >
-            <GitHubIcon fontSize="large" />
+            <GitHubIcon fontSize="small" />
           </IconButton>
           <IconButton
-            href="https://linkedin.com/in/votreprofil"
+            href="https://www.linkedin.com/in/jenna-fauconnier-diop/"
             target="_blank"
             rel="noopener noreferrer"
-            size="large"
+            size="small"
             sx={{
-              background: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)',
-              color: 'white',
-              '&:hover': { 
-                transform: 'scale(1.2)', 
-                transition: 'transform 0.2s',
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
+              backgroundColor: "#18181b",
+              border: "1px solid #27272a",
+              color: "#a1a1aa",
+              padding: "10px",
+              "&:hover": {
+                borderColor: "#3f3f46",
+                color: "#ffffff",
+                transform: "scale(1.1)",
               },
+              transition: "all 0.2s ease",
             }}
           >
-            <LinkedInIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            href="https://twitter.com/votreprofil"
-            target="_blank"
-            rel="noopener noreferrer"
-            size="large"
-            sx={{
-              background: 'linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%)',
-              color: 'white',
-              '&:hover': { 
-                transform: 'scale(1.2)', 
-                transition: 'transform 0.2s',
-                background: 'linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)',
-              },
-            }}
-          >
-            <TwitterIcon fontSize="large" />
+            <LinkedInIcon fontSize="small" />
           </IconButton>
         </Stack>
       </Container>
     </Box>
   );
 }
-

@@ -25,7 +25,7 @@ featured: true
 
 Application mobile fullstack de gestion de tâches avec système de rappels automatiques et validation par photo. Projet développé en suivant les documentations officielles de NestJS, Expo et Firebase, avec l'aide de l'IA pour l'architecture et les bonnes pratiques.
 
-## 🚀 Stack technique
+## Stack technique
 
 - **Frontend** : React Native + Expo
 - **Backend** : NestJS + TypeScript
@@ -33,26 +33,28 @@ Application mobile fullstack de gestion de tâches avec système de rappels auto
 - **Authentification** : Firebase Auth
 - **Notifications** : Expo Push Notifications
 
-## 📱 Fonctionnalités principales
+## Fonctionnalités principales
 
-- ✅ **Authentification** : Système complet d'inscription et connexion
-- ✅ **Gestion de tâches** : Création, modification et suppression de tâches
-- ✅ **Validation par photo** : Preuve visuelle de l'accomplissement des tâches
-- ✅ **Rappels automatiques** : Système progressif de notifications avec cron job
-- ✅ **Notifications push** : Alertes en temps réel (avec limitations iOS)
-- ✅ **Interface moderne** : Design responsive et intuitif
+- **Authentification** : Système complet d'inscription et connexion
+- **Gestion de tâches** : Création, modification et suppression de tâches
+- **Validation par photo** : Preuve visuelle de l'accomplissement des tâches
+- **Rappels automatiques** : Système progressif de notifications avec cron job
+- **Notifications push** : Alertes en temps réel (avec limitations iOS)
+- **Interface moderne** : Design responsive et intuitif
 
-## 🏗️ Architecture
+## Architecture
 
 L'application utilise une architecture client-serveur avec :
+
 - Backend NestJS exposant une API RESTful
 - Base de données NoSQL Firebase Firestore pour la persistance
 - Système de cron jobs pour les rappels automatiques
 - Intégration Firebase Auth pour la sécurité
 
-## 💡 Apprentissages
+## Apprentissages
 
 Ce projet fullstack m'a permis de :
+
 - Maîtriser le développement mobile avec React Native et Expo
 - Implémenter un backend robuste avec NestJS
 - Gérer l'upload et le stockage de photos

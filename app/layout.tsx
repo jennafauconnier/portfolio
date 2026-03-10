@@ -1,12 +1,20 @@
-import type { Metadata } from 'next';
-import ThemeRegistry from '@/components/ThemeRegistry';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
-import './globals.css';
+import type { Metadata } from "next";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import BackgroundGlow from "@/components/BackgroundGlow";
+import "./globals.css";
+import { Sora } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
-  title: 'Mon Portfolio',
-  description: 'Portfolio personnel créé avec Next.js et Material UI',
+  title: "Jenna Fauconnier — Portfolio",
+  description: "Développeuse React.js & React Native",
 };
 
 export default function RootLayout({
@@ -15,13 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={cn("dark font-sans", sora.variable)}>
       <body>
-        <ThemeRegistry>
-          <Navigation />
-          <main>{children}</main>
-          <Footer />
-        </ThemeRegistry>
+        <BackgroundGlow />
+        <Navigation />
+        <main className="relative z-10">{children}</main>
+        <Footer />
       </body>
     </html>
   );

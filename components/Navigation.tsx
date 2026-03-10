@@ -1,108 +1,98 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Box, IconButton } from '@mui/material';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import { useColorMode } from './ThemeRegistry';
+import { useState, useEffect } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Container,
+  Box,
+} from "@mui/material";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navigation() {
-  const { mode, toggleColorMode } = useColorMode();
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
-  const isHomePage = pathname === '/';
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const gradient = mode === 'light' 
-    ? 'linear-gradient(90deg, #1e40af 0%, #1e3a8a 50%, #0f172a 100%)'
-    : 'linear-gradient(90deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%)';
 
   const handleNavClick = (sectionId: string) => {
     if (isHomePage) {
       const element = document.getElementById(sectionId);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
       }
     }
   };
 
   return (
-    <AppBar 
-      position="fixed" 
-      elevation={isScrolled ? 4 : 0}
-      sx={{ 
-        background: isScrolled ? gradient : 'transparent',
-        color: 'white',
-        transition: 'all 0.3s ease',
-        backdropFilter: isScrolled ? 'none' : 'blur(10px)',
+    <AppBar
+      position="fixed"
+      elevation={0}
+      sx={{
+        background: isScrolled ? "rgba(10, 10, 10, 0.8)" : "transparent",
+        backdropFilter: isScrolled ? "blur(20px)" : "none",
+        borderBottom: isScrolled ? "1px solid rgba(39, 39, 42, 0.8)" : "none",
+        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
       <Container maxWidth="lg">
-        <Toolbar disableGutters>
-          <Link href="/" style={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}>
+        <Toolbar disableGutters sx={{ minHeight: "72px" }}>
+          <Link
+            href="/"
+            style={{ textDecoration: "none", color: "inherit", flexGrow: 1 }}
+          >
             <Typography
               variant="h6"
               sx={{
-                fontWeight: 'bold',
-                color: 'white',
+                fontWeight: 700,
+                color: "#ffffff",
+                fontSize: "1.25rem",
+                letterSpacing: "-0.02em",
               }}
             >
               Portfolio
             </Typography>
           </Link>
-          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-            <Link href="/#about" style={{ textDecoration: 'none' }}>
-              <Button 
-                onClick={() => handleNavClick('about')}
-                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+            {[
+              { label: "À propos", id: "about" },
+              { label: "Compétences", id: "skills" },
+              { label: "Projets", id: "projects" },
+              { label: "Contact", id: "contact" },
+            ].map((item) => (
+              <Link
+                key={item.id}
+                href={`/#${item.id}`}
+                style={{ textDecoration: "none" }}
               >
-                À propos
-              </Button>
-            </Link>
-            <Link href="/#skills" style={{ textDecoration: 'none' }}>
-              <Button 
-                onClick={() => handleNavClick('skills')}
-                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
-              >
-                Compétences
-              </Button>
-            </Link>
-            <Link href="/#projects" style={{ textDecoration: 'none' }}>
-              <Button 
-                onClick={() => handleNavClick('projects')}
-                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
-              >
-                Projets
-              </Button>
-            </Link>
-            <Link href="/#contact" style={{ textDecoration: 'none' }}>
-              <Button 
-                onClick={() => handleNavClick('contact')}
-                sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' } }}
-              >
-                Contact
-              </Button>
-            </Link>
-            <IconButton 
-              onClick={toggleColorMode} 
-              sx={{ 
-                ml: 1, 
-                color: 'white',
-                '&:hover': { bgcolor: 'rgba(255, 255, 255, 0.1)' }
-              }}
-            >
-              {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
+                <Button
+                  onClick={() => handleNavClick(item.id)}
+                  sx={{
+                    color: "#ffffff",
+                    fontWeight: 500,
+                    fontSize: "0.95rem",
+                    px: 2,
+                    "&:hover": {
+                      bgcolor: "rgba(59, 130, 246, 0.1)",
+                      color: "#3b82f6",
+                    },
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  {item.label}
+                </Button>
+              </Link>
+            ))}
           </Box>
         </Toolbar>
       </Container>
