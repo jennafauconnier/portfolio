@@ -85,7 +85,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             {project.title}
           </Typography>
         </Link>
-        <Typography variant="body2" sx={{ flexGrow: 1, color: "#71717a" }}>
+        <Typography variant="body2" sx={{ flexGrow: 1, mb: 2, color: "#71717a" }}>
           {project.description}
         </Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>

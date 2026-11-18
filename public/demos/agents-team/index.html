@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>Équipe d'agents LLM</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Sora:wght@300;400;500;600;700&display=swap">
+<style>
+  /* Concept : un carnet de bord de CI. Fond froid, encre bleu nuit, vert = test passé, indigo = rôle d'agent. */
+  :root {
+    color-scheme: dark;
+    /* palette du portfolio : noir pur, gris zinc, bleu pour l'accent, vert = test passé */
+    --bg: #000000; --surface: #0a0a0a; --ink: #fafafa; --muted: #a1a1aa; --line: #27272a; --code-bg: #101012;
+    --pass: #4ade80; --pass-bg: rgba(74, 222, 128, .12); --ko: #f87171; --ko-bg: rgba(248, 113, 113, .14);
+    --accent: #60a5fa; --accent-bg: rgba(59, 130, 246, .14);
+    --f-display: Sora, system-ui, sans-serif;
+    --f-body: Sora, system-ui, sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  ::selection { background: rgba(59, 130, 246, .3); }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    -webkit-font-smoothing: antialiased; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--f-body); margin: 0;
+    padding-block: 48px 72px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; display: grid; gap: 64px; }
+  h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+  h1 { font-size: clamp(2.2rem, 6vw, 3.9rem); line-height: 1.08; font-weight: 300; letter-spacing: -0.03em; max-width: 18ch;
+       background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  h2 { font-size: 1.6rem; line-height: 1.2; font-weight: 300; letter-spacing: -0.02em; }
+  h3 { font-size: 1.05rem; font-weight: 500; }
+  p { margin: 0; }
+  .eyebrow { font: 600 0.74rem/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .lead { color: var(--muted); font-size: 1.12rem; max-width: 62ch; }
+  .mono { font-family: var(--f-mono); }
+  section { display: grid; gap: 22px; }
+  .sec-head { display: grid; gap: 8px; }
+  .sec-head p { color: var(--muted); max-width: 66ch; }
+
+  /* Hero */
+  .hero { display: grid; gap: 22px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line);
+           border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .stat { background: var(--surface); padding: 18px 18px 16px; display: grid; gap: 4px; min-width: 0; }
+  .stat b { font: 700 2.1rem/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--muted); font-size: .86rem; }
+  .stat.ok b { color: var(--pass); }
+
+  html.embed { color-scheme: normal; }  /* sinon le cadre est opaque et cache le halo du portfolio */
+  html.embed, html.embed body { background: transparent; }
+  html.embed body { padding: 8px 0; }  /* aligné sur le titre de la fiche */
+  html.embed .back, html.embed .hero > :not(.stats) { display: none; }  /* titre et technos sont déjà dans l'en-tête de la fiche */
+  html.embed .wrap { gap: 56px; max-width: none; }  /* prend toute la largeur de la fiche */
+  .back { color: var(--muted); text-decoration: none; font-size: .9rem; justify-self: start; }
+  .back:hover { color: var(--ink); }
+
+  /* Pipeline */
+  .flow { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+  .stage { flex: 1 1 130px; min-width: 0; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 6px; align-content: start; }
+  .stage:hover { border-color: var(--accent); }
+  .stage[aria-selected="true"] { border-color: var(--accent); background: var(--accent-bg); }
+  .stage:focus-visible, .sq:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .stage .n { font: 600 .72rem/1 var(--f-mono); color: var(--accent); letter-spacing: .08em; text-transform: uppercase; }
+  .stage .r { font: 700 1.02rem/1.2 var(--f-display); }
+  .stage .m { font: 400 .74rem/1.35 var(--f-mono); color: var(--muted); overflow-wrap: anywhere; }
+  .stage.test .n, .stage.test[aria-selected="true"] { }
+  .stage.test .n { color: var(--pass); }
+  .stage.test[aria-selected="true"] { border-color: var(--pass); background: var(--pass-bg); }
+  .par { flex: 1.25 1 150px; display: grid; gap: 10px; }
+  .par .stage { flex: none; }
+  .par .tag { font: 600 .7rem/1 var(--f-mono); color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+  .loop { color: var(--muted); font-size: .9rem; display: flex; gap: 10px; align-items: baseline; }
+  .loop code { font-family: var(--f-mono); font-size: .82rem; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; }
+
+  .viewer { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .viewer header { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .viewer header .who { font: 700 1.05rem var(--f-display); }
+  .viewer header .model { font: 400 .78rem var(--f-mono); color: var(--muted); }
+  .viewer .desc { padding: 14px 18px 0; color: var(--muted); font-size: .94rem; }
+  pre { margin: 14px 18px 18px; padding: 14px 16px; background: var(--code-bg); border: 1px solid var(--line); border-radius: 8px;
+        font: 400 .82rem/1.6 var(--f-mono); overflow-x: auto; white-space: pre; tab-size: 4; }
+
+  /* Tests */
+  .tests { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 22px; display: grid; gap: 18px; }
+  .tests-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+  .tests-top b { font: 700 2.6rem/1 var(--f-mono); color: var(--pass); }
+  .tests-top span { color: var(--muted); }
+  .grp { display: grid; grid-template-columns: 170px 1fr; gap: 6px 18px; align-items: center; }
+  .grp .lab { font-size: .9rem; display: flex; justify-content: space-between; gap: 8px; min-width: 0; }
+  .grp .lab em { font: normal 600 .8rem var(--f-mono); color: var(--muted); }
+  .sqs { display: flex; flex-wrap: wrap; gap: 5px; }
+  .sq { width: 22px; height: 22px; padding: 0; border: 0; border-radius: 5px; background: var(--pass); cursor: pointer; opacity: .9; }
+  .sq:hover, .sq.on { opacity: 1; box-shadow: 0 0 0 3px var(--pass-bg), 0 0 0 4px var(--pass); }
+  .tname { font: 400 .84rem/1.4 var(--f-mono); color: var(--muted); min-height: 1.4em; border-top: 1px solid var(--line); padding-top: 14px; }
+  .tname b { color: var(--pass); font-weight: 600; }
+  .note { font-size: .92rem; color: var(--muted); }
+
+  /* Verdict */
+  .verdict { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+  .vcard { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 4px; }
+  .vcard small { font: 600 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .vcard b { font: 700 1.5rem var(--f-mono); color: var(--pass); }
+
+  /* Budget */
+  .budget { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+  .bchart, .bmodels { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 14px; }
+  .bchart h3, .bmodels h3 { font-size: .8rem; font: 600 .74rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .brow { display: grid; gap: 6px; }
+  .blab { display: flex; justify-content: space-between; gap: 10px; font-size: .88rem; flex-wrap: wrap; }
+  .blab .v { font: 600 .84rem var(--f-mono); font-variant-numeric: tabular-nums; }
+  .track { height: 12px; border-radius: 6px; background: var(--code-bg); border: 1px solid var(--line); overflow: hidden; }
+  .track i { display: block; height: 100%; min-width: 3px; border-radius: 6px; background: var(--muted); }
+  .brow.ok .track i { background: var(--pass); }
+  .brow.me .blab b { color: var(--accent); }
+  .cap { display: flex; justify-content: space-between; font: 400 .74rem var(--f-mono); color: var(--muted); border-top: 1px dashed var(--line); padding-top: 8px; }
+  .mrow { display: grid; gap: 3px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .mrow:last-child { border-bottom: 0; padding-bottom: 0; }
+  .mrow b { font: 600 .86rem var(--f-mono); overflow-wrap: anywhere; }
+  .mrow span { font-size: .86rem; color: var(--muted); }
+  .mrow .px { font: 400 .78rem var(--f-mono); }
+  @media (max-width: 760px) { .budget { grid-template-columns: 1fr; } }
+
+  /* Itérations */
+  .rounds { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .round { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .rh { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .rh b { font: 700 1.05rem var(--f-display); }
+  .rh span { font-size: .78rem; color: var(--muted); }
+  .rcs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rc { display: inline-flex; align-items: center; gap: 6px; font: 600 .78rem var(--f-mono); padding: 4px 10px; border-radius: 999px; }
+  .rc i { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .rc.ok { background: var(--pass-bg); color: var(--pass); }
+  .rc.ko { background: var(--ko-bg); color: var(--ko); }
+  .round p { font-size: .9rem; color: var(--muted); }
+
+  .vtag { font: 600 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+
+  /* Critères */
+  .crit { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .story { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
+  .story ul, .fitcol ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .story li { font-size: .92rem; padding-left: 22px; position: relative; }
+  .story li::before { content: ""; position: absolute; left: 0; top: .45em; width: 11px; height: 11px; border-radius: 3px; border: 2px solid var(--pass); }
+
+  /* Intégration */
+  .uses { display: flex; flex-wrap: wrap; gap: 8px; }
+  .use { font: 600 .92rem var(--f-body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; cursor: pointer; }
+  .use[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+  .use:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .usecase { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  .ucol { background: var(--surface); padding: 16px 18px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+  .ucol small { font: 600 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .ucol p { font-size: .94rem; }
+  .fit { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .fitcol { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; }
+  .fitcol li { font-size: .92rem; padding-left: 22px; position: relative; }
+  .fitcol li::before { position: absolute; left: 0; font-weight: 700; }
+  .fitcol.good li::before { content: "+"; color: var(--pass); }
+  .fitcol.bad li::before { content: "–"; color: var(--muted); }
+  .roll { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+  .step { border-top: 2px solid var(--accent); padding-top: 12px; display: grid; gap: 6px; align-content: start; }
+  .step .n { font: 600 .72rem var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .step p { color: var(--muted); font-size: .92rem; }
+  .have { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .have > div { display: grid; gap: 10px; align-content: start; }
+  .chip.todo { background: transparent; border: 1px dashed var(--muted); color: var(--muted); }
+
+  /* Lessons */
+  .lessons { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .lesson { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: grid; gap: 8px; align-content: start; }
+  .lesson p { color: var(--muted); font-size: .94rem; }
+  .guard { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font: 400 .8rem var(--f-mono); background: var(--accent-bg); color: var(--accent); border-radius: 999px; padding: 5px 12px; }
+  footer { color: var(--muted); font: 400 .8rem/1.6 var(--f-mono); border-top: 1px solid var(--line); padding-top: 20px; overflow-wrap: anywhere; }
+
+  @media (max-width: 640px) {
+    .grp { grid-template-columns: 1fr; }
+    body { padding-block: 32px 56px; }
+  }
+  @media (prefers-reduced-motion: no-preference) { .stage, .sq { transition: border-color .15s, background .15s, box-shadow .15s; } }
+</style>
+
+<div class="wrap">
+  <a class="back" id="back" href="/projects/agents-team" hidden>← Retour au projet</a>
+  <div class="hero">
+    <span class="eyebrow">Python · OpenRouter · DeepSeek · Mimo · hy4 · unittest</span>
+    <h1>Une équipe produit d'agents qui livre, teste et se corrige</h1>
+    <p class="lead">Six rôles (PM, PO, Tech Lead, dev front, dev back, QA), chacun un modèle choisi selon le prix. Les agents s'échangent des livrables courts, pas des conversations. Le code écrit est exécuté pour de vrai avant le verdict du QA.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <section id="pipeline">
+    <div class="sec-head">
+      <span class="eyebrow">Le pipeline</span>
+      <h2>De la demande au code livré</h2>
+      <p>Demande du run : « Ajouter un panier à une boutique en ligne ». Clique sur une étape pour voir ce qu'elle a réellement produit.</p>
+    </div>
+    <div class="flow" id="flow" role="tablist" aria-label="Étapes du pipeline"></div>
+    <div class="loop"><code>QA = KO</code><span>le côté fautif est refait avec un modèle plus fort, jusqu'à 5 fois, sous un budget de 0,50 $.</span></div>
+    <div class="viewer" id="viewer" role="tabpanel" aria-live="polite"></div>
+  </section>
+
+  <section id="budget">
+    <div class="sec-head">
+      <span class="eyebrow">Budget</span>
+      <h2 id="bTitle">Un plafond de 0,50 $ par run</h2>
+      <p id="bText"></p>
+    </div>
+    <div class="budget">
+      <div class="bchart" id="bchart"></div>
+      <div class="bmodels" id="bmodels"></div>
+    </div>
+    <p class="note">Le coût est cumulé après chaque réponse, même une réponse vide, qui est facturée. Dépasser le plafond arrête le run et garde les livrables déjà écrits. Les corrections sont aussi limitées à 5.</p>
+  </section>
+
+  <section id="itSec">
+    <div class="sec-head">
+      <span class="eyebrow">Itérations</span>
+      <h2 id="itTitle">Le code n'est pas bon du premier coup</h2>
+      <p>Chaque tour, les tests sont exécutés puis le QA juge. Un KO renvoie le côté fautif au dev, avec un modèle plus fort.</p>
+    </div>
+    <div class="rounds" id="rounds"></div>
+  </section>
+
+  <section id="preuves">
+    <div class="sec-head">
+      <span class="eyebrow">Preuves</span>
+      <h2>Des tests exécutés, pas relus</h2>
+      <p>Le code du back est écrit sur disque et testé avec <span class="mono">unittest</span> dans un environnement sans clé d'API. Des tests rouges l'emportent sur un QA trop indulgent.</p>
+    </div>
+    <div class="tests">
+      <div class="tests-top"><b id="tcount">29</b><span>tests passés au dernier tour · 5 familles</span></div>
+      <div id="groups"></div>
+      <div class="tname" id="tname" aria-live="polite">Survole ou sélectionne un carré pour lire le nom du test.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Verdict</span>
+      <h2>Le QA a vérifié le code contre 10 critères écrits avant lui</h2>
+      <p>Avant d'écrire une ligne de code, le PO fixe les critères d'acceptation. Le QA relit ensuite le code face à ces critères et aux résultats des tests, puis rend un verdict par côté.</p>
+    </div>
+    <div class="verdict">
+      <div class="vcard"><small>Verdict</small><b>OK</b></div>
+      <div class="vcard"><small>Front</small><b>OK</b></div>
+      <div class="vcard"><small>Back</small><b>OK</b></div>
+    </div>
+    <div class="crit">
+      <div class="story"><h3>Story 1 · Ajouter un article</h3><ul>
+        <li>Ajout d'un article disponible</li><li>Article déjà présent dans le panier</li><li>Article indisponible</li></ul></div>
+      <div class="story"><h3>Story 2 · Consulter et modifier</h3><ul>
+        <li>Accès et affichage du panier</li><li>Modification de quantité</li><li>Suppression d'un article</li><li>Suppression du dernier article</li></ul></div>
+      <div class="story"><h3>Story 3 · Persistance et stock</h3><ul>
+        <li>Persistance du panier</li><li>Article devenu indisponible entre deux sessions</li><li>Quantité supérieure au stock</li></ul></div>
+    </div>
+    <p class="note">Le QA ne rend qu'un verdict global : aucun de ces 10 critères n'a été jugé non rempli. Il n'y a pas de note critère par critère. Livré : <span class="mono">7 fichiers, 796 lignes dont 233 de tests</span> (<span class="mono">cart.py, server.py, catalog.py, cart.html, product.html, app.js, test_cart.py</span>).</p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Intégration V1</span>
+      <h2>Se décharger du premier jet, pas de la décision</h2>
+      <p>L'équipe produit un premier jet structuré et testé en quelques minutes pour quelques centimes (de 0,007 $ à 0,08 $ sur mes runs). Un humain décide ce qui est gardé. Choisis une situation.</p>
+    </div>
+    <div class="uses" id="uses" role="tablist" aria-label="Cas d'usage"></div>
+    <div class="usecase" id="usecase" role="tabpanel" aria-live="polite"></div>
+    <div class="fit">
+      <div class="fitcol good"><h3>Bons candidats pour la V1</h3><ul>
+        <li>Périmètre petit et clair, logique testable</li>
+        <li>Prototype, spike, outil interne jetable</li>
+        <li>Notes de réunion à transformer en backlog</li>
+        <li>Squelette de code et tests d'un ticket simple</li></ul></div>
+      <div class="fitcol bad"><h3>À éviter pour l'instant</h3><ul>
+        <li>Code de sécurité, de paiement ou données sensibles</li>
+        <li>Demande floue qu'un humain n'a pas encore cadrée</li>
+        <li>Modification d'un gros code existant : l'équipe travaille dans un dossier vide</li>
+        <li>Tout ce qui touche à la production</li></ul></div>
+    </div>
+    <div class="roll">
+      <div class="step"><span class="n">Étape 1</span><h3>Lecture seule</h3><p>Lancer sur des notes de réunion. Un humain relit les stories et le plan. Aucun code n'entre dans un projet.</p></div>
+      <div class="step"><span class="n">Étape 2</span><h3>Prototypes jetables</h3><p>Générer et tester une idée dans un dossier isolé. On garde ou on jette.</p></div>
+      <div class="step"><span class="n">Étape 3</span><h3>Brouillon de MR</h3><p>Sur des tickets simples, le résultat part en MR brouillon, avec une revue humaine obligatoire.</p></div>
+    </div>
+    <div class="have">
+      <div><h3>Déjà dans le prototype</h3><div class="guard"><span class="chip">budget plafonné</span><span class="chip">corrections limitées</span><span class="chip">dossier jetable</span><span class="chip">tests exécutés</span></div></div>
+      <div><h3>À ajouter pour la V1</h3><div class="guard"><span class="chip todo">pause humaine après le PO</span><span class="chip todo">lecture d'un vrai projet</span><span class="chip todo">lien tickets et MR</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <span class="eyebrow">Ce que ça m'a appris</span>
+      <h2>Quatre problèmes réels, quatre garde-fous</h2>
+    </div>
+    <div class="lessons">
+      <div class="lesson"><h3>Un QA qui relit se laisse convaincre</h3><p>Un modèle juge mal son propre style de code. Le back est donc exécuté et le résultat des tests prime sur l'avis du QA.</p></div>
+      <div class="lesson"><h3>Un test peut avoir tort</h3><p>Un test attendait 5 € de livraison sur un panier de 55 € HT, alors que la règle donnait 0 €. Le QA doit recalculer à la main et dire si c'est le code ou le test qui est faux.</p></div>
+      <div class="lesson"><h3>Les modèles à raisonnement répondent vide</h3><p>Ils dépensent tous leurs tokens à réfléchir. J'ai coupé le raisonnement côté OpenRouter, et l'équipe passe au modèle suivant quand une réponse est vide.</p></div>
+      <div class="lesson"><h3>Le périmètre et le coût dérivent</h3><p>Le PO est limité à 3 stories et le QA ne bloque que sur un critère clairement non rempli. Le budget et le nombre de corrections sont plafonnés.</p></div>
+    </div>
+    <div class="guard"><span class="chip">budget 0,50 $</span><span class="chip">5 corrections max</span><span class="chip">dossier jetable, sans clé d'API</span><span class="chip">python stdlib, sans dépendance</span></div>
+  </section>
+
+  <section id="v2">
+    <div class="sec-head">
+      <span class="eyebrow">Et après</span>
+      <h2>Un projet fait pour itérer : vers une V2</h2>
+      <p>Le but est de traiter des situations de plus en plus compliquées au coût le plus bas. Chaque version ajoute une capacité, et le budget tranche : on n'appelle un modèle plus fort que lorsqu'un test ou le QA échoue.</p>
+    </div>
+    <div class="lessons">
+      <div class="lesson"><span class="vtag">V1 · fait</span><h3>Une demande courte, du code testé</h3><p>Six rôles, un modèle par rôle, des tests exécutés, un budget plafonné. Les runs observés ont coûté de 0,007 $ à 0,08 $.</p></div>
+      <div class="lesson"><span class="vtag">V2 · mesurer</span><h3>Comparer le coût réel</h3><p>Enregistrer les tokens de chaque appel et comparer l'équipe routée à une équipe où tous les rôles utilisent le modèle fort, sur la même demande.</p></div>
+      <div class="lesson"><span class="vtag">V2 · cadrer</span><h3>Découper les demandes complexes</h3><p>Les grosses demandes restent en KO. Le PM les découperait lui-même en incréments, chacun validé avant le suivant.</p></div>
+      <div class="lesson"><span class="vtag">V2 · intégrer</span><h3>Travailler dans un vrai projet</h3><p>Lire du code existant, proposer une modification et ouvrir une MR en brouillon, avec une pause humaine après le PO et le Tech Lead.</p></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+const D = {"pm": "- Objectif : permettre aux clients d’ajouter, consulter et modifier des articles avant de poursuivre leur achat.\n- Utilisateurs : visiteurs et clients connectés sur la boutique en ligne.\n- Périmètre : ajout/suppression d’articles, modification des quantités, calcul du sous-total, persistance du panier.\n- Périmètre : affichage du nombre d’articles et accès au panier depuis toutes les pages.\n- Périmètre : gestion des articles indisponibles ou supprimés avec message clair.\n- Hors-périmètre : paiement, livraison, création de compte, promotions/coupons, wishlist.", "po": "## Story 1 — Ajouter un article au panier\n\n**En tant que** visiteur ou client connecté,\n**je veux** ajouter un article à mon panier depuis la fiche produit,\n**afin de** préparer mon achat.\n\n### Critères d'acceptation\n\n**CA1 — Ajout d'un article disponible**\n- **Given** un article disponible avec un stock > 0\n- **When** je clique sur \"Ajouter au panier\"\n- **Then** l'article est ajouté au panier\n- **And** le compteur d'articles en header s'incrémente de la quantité ajoutée\n- **And** un message de confirmation s'affiche\n\n**CA2 — Article déjà présent dans le panier**\n- **Given** un article déjà présent dans mon panier\n- **When** je clique sur \"Ajouter au panier\"\n- **Then** la quantité de cet article est incrémentée (pas de doublon de ligne)\n- **And** le compteur en header reflète la nouvelle quantité totale", "tl": "## API\n\nContrat d'échange (JSON). Le back expose des **fonctions**, un petit adaptateur `http.server` fait le mapping HTTP → fonction. Pas de framework.\n\n| Endpoint | Entrée | Sortie |\n|---|---|---|\n| `POST /cart/add` | `{\"sku\":\"A1\",\"qty\":1}` | `{\"cart\": {...}, \"ok\": true}` ou `{\"ok\": false, \"error\":\"OUT_OF_STOCK\"}` |\n| `GET /cart?state=<json>` | `state` = panier local (URL-encoded) | `{\"cart\": {...}, \"warnings\":[...]}` |\n| `POST /cart/update` | `{\"state\":{...},\"sku\":\"A1\",\"qty\":3}` | `{\"cart\": {...}, \"warnings\":[...], \"ok\":true}` |\n| `POST /cart/remove` | `{\"state\":{...},\"sku\":\"A1\"}` | `{\"cart\": {...}, \"warnings\":[]}` |\n| `GET /catalog` | — | `{\"A1\":{\"name\":\"...\",\"price\":9.9,\"stock\":5,\"active\":true}, ...}` |", "code": "def add(state: dict, sku: str, qty: int, catalog: dict = None) -> Tuple[dict, bool, str]:\n    \"\"\"Incrémente la quantité existante sans doublon. Refuse si indispo ou dépassement stock.\"\"\"\n    catalog = catalog if catalog is not None else get_catalog()\n    item = catalog.get(sku)\n    if not item or not item.get(\"active\") or int(item.get(\"stock\", 0)) <= 0:\n        return state, False, \"OUT_OF_STOCK\"\n\n    try:\n        qty = int(qty)\n    except (TypeError, ValueError):\n        return state, False, \"INVALID_QTY\"\n    if qty <= 0:\n        return state, False, \"INVALID_QTY\"\n\n    stock = int(item[\"stock\"])\n    current = int(state.get(\"lines\", {}).get(sku, 0))\n    target = current + qty\n    if target > stock:\n        return state, False, \"OUT_OF_STOCK\"\n\n    new_state = {\"lines\": dict(state.get(\"lines\", {}))}\n    new_state[\"lines\"][sku] = target\n    return new_state, True, \"\"\n\n# --- et son test ---\ndef test_add_out_of_stock(self):\n        state, ok, err = add({\"lines\": {}}, \"A1\", 6, _cat())\n        self.assertFalse(ok)\n        self.assertEqual(err, \"OUT_OF_STOCK\")", "front": "const API = {\n  async get(url) {\n    const r = await fetch(url);\n    return r.json();\n  },\n  async post(url, body) {\n    const r = await fetch(url, {\n      method: 'POST',\n      headers: {'Content-Type': 'application/json'},\n      body: JSON.stringify(body)\n    });\n    return r.json();\n  }\n};\n\nlet catalogCache = null;\nasync function getCatalog() {\n  if (!catalogCache) catalogCache = (await API.get('/catalog'));\n  return catalogCache;\n}\n\nfunction getState() {\n  try { return JSON.parse(localStorage.getItem('cart') || '{}'); }\n  catch { return {}; }\n}\n\nfunction setState(lines) {\n  localStorage.setItem('cart', JSON.stringify(lines || {}));", "testout": "python3 -m unittest discover -v\n\nStory 1 CA2 : ajout sur une ligne existante incrément la quantité. ... ok\nL'accumulation qui dépasse le stock est refusée et l'état est inchangé. ... ok\ntest_add_accumulates_multiple_times (test_cart.TestAdd) ... ok\ntest_add_inactive (test_cart.TestAdd) ... ok\ntest_add_invalid_qty (test_cart.TestAdd) ... ok\ntest_add_negative_qty (test_cart.TestAdd) ... ok\ntest_add_new (test_cart.TestAdd) ... ok\ntest_add_out_of_stock (test_cart.TestAdd) ... ok\ntest_add_unknown (test_cart.TestAdd) ... ok\ntest_add_zero_qty (test_cart.TestAdd) ... ok\ntest_flow (test_cart.TestIntegration) ... ok\nStory 1 CA1/CA2 : le state est envoyé et préservé d'un appel add à l'autre. ... ok\nStory 1 CA2 : add successifs accumulent, le panier grandit correctement. ... ok\nStory 3 CA2 : une ligne UNAVAILABLE reste dans le state pour suppression. ... ok\ntest_count_excludes_unavailable (test_cart.TestReconcile) ... ok\ntest_empty (test_cart.TestReconcile) ... ok\ntest_ok (test_cart.TestReconcile) ... ok\ntest_stock_low (test_cart.TestReconcile) ... ok\ntest_subtotal_rounding (test_cart.TestReconcile) ... ok\ntest_unavailable_inactive (test_cart.TestReconcile) ... ok\ntest_unavailable_stock_zero (test_cart.TestReconcile) ... ok\ntest_unavailable_unknown_sku (test_cart.TestReconcile) ... ok\ntest_remove (test_cart.TestRemove) ... ok\ntest_remove_missing (test_cart.TestRemove) ... ok\ntest_update_clamp (test_cart.TestUpdate) ... ok\ntest_update_negative_removes (test_cart.TestUpdate) ... ok\ntest_update_new_line (test_cart.TestUpdate) ... ok\nUne ligne indisponible est conservée dans le state pour affichage/suppression. ... ok\ntest_update_zero_removes (test_cart.TestUpdate) ... ok\n----------------------------------------------------------------------\nRan 29 tests in 0.001s\nOK", "qa": "VERDICT: OK\nFRONT: OK\nBACK: OK", "groups": [{"label": "Ajout", "tests": ["test_add_new", "test_add_accumulates", "test_add_accumulates_multiple_times", "test_add_accumulates_exceeds_stock", "test_add_out_of_stock", "test_add_inactive", "test_add_unknown", "test_add_invalid_qty", "test_add_zero_qty", "test_add_negative_qty"]}, {"label": "Mise à jour", "tests": ["test_update_clamp", "test_update_zero_removes", "test_update_new_line", "test_update_unavailable_keeps_line", "test_update_negative_removes"]}, {"label": "Suppression", "tests": ["test_remove", "test_remove_missing"]}, {"label": "Stock, prix, totaux", "tests": ["test_empty", "test_ok", "test_stock_low", "test_unavailable_unknown_sku", "test_unavailable_inactive", "test_unavailable_stock_zero", "test_count_excludes_unavailable", "test_subtotal_rounding"]}, {"label": "Parcours complet", "tests": ["test_flow", "test_flow_with_accumulation", "test_flow_state_preserved_on_add", "test_unavailable_line_remains_in_state"]}], "budget": {"cap": 0.5, "models": [{"id": "deepseek/deepseek-v4.1-flash-1017", "in": 0.036, "out": 0.5, "role": "PM, PO et devs (exécution)"}, {"id": "xiaomi/mimo-v2.6-pro", "in": 0.435, "out": 0.87, "role": "devs après un KO (monte d'un cran)"}, {"id": "tencent/hy4", "in": 0.417, "out": 1.25, "role": "Tech Lead et QA (conception, vérification)"}], "runs": [{"label": "Bouton + compteur", "cost": 0.00697, "ok": true, "rounds": 1}, {"label": "Bouton + compteur, QA strict", "cost": 0.02723, "ok": false, "rounds": 4}, {"label": "Panier, QA strict", "cost": 0.07345, "ok": false, "rounds": 4}, {"label": "Panier, QA strict, 5 corrections", "cost": 0.07838, "ok": false, "rounds": 6}]}};
+const inFrame = window.parent !== window;  // intégrée dans une page du portfolio
+if (new URLSearchParams(location.search).has("embed")) document.documentElement.classList.add("embed");
+if (!inFrame && location.pathname.includes("/demos/")) document.getElementById("back").hidden = false;  // servie seule dans le portfolio
+if (inFrame) {
+  let last = -1;
+  const send = () => {
+    const h = Math.ceil(document.body.getBoundingClientRect().height);  // hauteur du contenu : scrollHeight ne redescend jamais sous la fenêtre du cadre
+    if (h !== last) { last = h; parent.postMessage({ agentsTeamHeight: h }, location.origin); }
+  };
+  new ResizeObserver(send).observe(document.body);
+  addEventListener("resize", send); addEventListener("load", send);
+  setInterval(send, 400);  // filet de sécurité : fontes qui chargent, onglets, changement de largeur
+}
+// une erreur ne doit jamais vider la page : on l'affiche en pied de page
+function fail(e) { console.error(e); const f = document.querySelector("footer"); if (f) f.append(" · Erreur JS : " + (e && e.message || e)); }
+window.addEventListener("error", ev => fail(ev.error || ev.message));
+
+const run = D.run;
+const CAP = D.budget.cap, fr = (n, d = 3) => n.toLocaleString("fr-FR", { minimumFractionDigits: d, maximumFractionDigits: d });
+const stats = [
+  ["29", "tests passés au dernier tour", "ok"],
+  [run ? String(run.rounds.length) : "?", run && run.rounds.length === 1 ? "tour de test et de QA" : "tours de test et de QA", ""],
+  [run ? "$" + run.cost.toFixed(3) : "?", "coût total du run", ""],
+  [fr(CAP, 2) + " $", "plafond de budget par run", ""], ["796", "lignes générées, 7 fichiers", ""]
+];
+
+function extras() {  // budget + itérations : isolés pour ne pas bloquer le pipeline en cas d'erreur
+const short = m => m.split("/").pop();
+const runsB = D.budget.runs.slice();
+if (run) runsB.push({ label: "Ce run : le panier approuvé", cost: run.cost, ok: run.approved, rounds: run.rounds.length, me: true });
+const maxCost = Math.max(...runsB.map(r => r.cost));
+document.getElementById("bText").textContent = "Mon run le plus cher a coûté " + fr(maxCost) + " $, soit " + Math.round(maxCost / CAP * 100) + " % du plafond. Le routage fait le reste : les modèles chers ne travaillent que là où une erreur se propage.";
+document.getElementById("bchart").innerHTML = "<h3>Coût de mes runs, sur l'échelle du plafond</h3>" + runsB.map(r =>
+  `<div class="brow ${r.ok ? "ok" : ""} ${r.me ? "me" : ""}"><div class="blab"><span><b>${r.label}</b> · ${r.rounds} ${r.rounds > 1 ? "tours" : "tour"} · ${r.ok ? "approuvé" : "non approuvé"}</span><span class="v">${fr(r.cost)} $</span></div>
+   <div class="track"><i style="width:${Math.max(0.6, r.cost / CAP * 100)}%"></i></div></div>`).join("") +
+  `<div class="cap"><span>0 $</span><span>plafond ${fr(CAP, 2)} $</span></div>`;
+document.getElementById("bmodels").innerHTML = "<h3>Qui coûte quoi ($ par million de tokens)</h3>" + D.budget.models.map(m =>
+  `<div class="mrow"><b>${short(m.id)}</b><span>${m.role}</span><span class="px">entrée ${fr(m.in)} · sortie ${fr(m.out)}</span></div>`).join("");
+
+const rEl = document.getElementById("rounds");
+if (run) {
+  // les appels entre deux QA = les corrections faites après le QA précédent
+  const fixes = []; let cur = [];
+  run.calls.forEach(c => { if (c.role === "QA") { fixes.push(cur); cur = []; } else if (c.role.startsWith("DEV_") && fixes.length) cur.push(c); });
+  const tail = cur;
+  document.getElementById("itTitle").textContent = run.rounds.length === 1
+    ? "Approuvé dès le premier tour" : "Approuvé au tour " + run.rounds.length;
+  const chip = (label, v) => `<span class="rc ${v === "KO" || v === false ? "ko" : "ok"}"><i></i>${label} ${v === true ? "OK" : v === false ? "KO" : v}</span>`;
+  rEl.innerHTML = run.rounds.map((r, i) => {
+    const fix = (fixes[i + 1] || (i === run.rounds.length - 2 ? tail : [])).map(c => c.role.replace("DEV_", "dev ").toLowerCase() + " (" + short(c.model) + ")");
+    return `<div class="round"><div class="rh"><b>Tour ${i + 1}</b><span class="mono">$${r.cost.toFixed(3)} cumulé</span></div>
+      <div class="rcs">${chip("tests", r.tests)}${chip("front", r.front)}${chip("back", r.back)}</div>
+      <p>${r.approved ? "QA approuvé : la livraison est acceptée." : "KO" + (fix.length ? " : renvoyé à " + fix.join(" et ") + "." : ".")}</p></div>`;
+  }).join("");
+} else {
+  document.getElementById("itSec").hidden = true;  // run sans run.json : rien à montrer
+}
+}
+try { extras(); } catch (e) { fail(e); }
+document.getElementById("stats").innerHTML = stats.filter(s => s[0] !== "?").map(s => `<div class="stat ${s[2]}"><b>${s[0]}</b><span>${s[1]}</span></div>`).join("");
+
+const M = { cheap: "deepseek-v4.1-flash-1017", strong: "hy4" };
+const stages = [
+  { id: "pm", n: "1 · cadrer", r: "PM", m: M.cheap, who: "PM", desc: "Reçoit la demande. Livre objectif, utilisateurs, périmètre, hors-périmètre et risques, en 15 lignes maximum.", text: D.pm },
+  { id: "po", n: "2 · découper", r: "PO", m: M.cheap, who: "PO", desc: "Transforme le cadrage en 3 stories maximum, avec des critères Given/When/Then testables.", text: D.po },
+  { id: "tl", n: "3 · concevoir", r: "Tech Lead", m: M.strong, who: "Tech Lead", desc: "Une erreur ici se propage jusqu'au code : c'est le modèle fort. Il écrit le contrat d'API et découpe FRONT et BACK.", text: D.tl },
+  { id: "back", n: "4 · coder", r: "Dev back", m: M.cheap + " → mimo-v2.6-pro", who: "Dev back", desc: "Python standard uniquement. Il écrit le code et ses tests unittest. Après un KO du QA, il monte d'un cran dans l'échelle de prix.", text: D.code },
+  { id: "front", n: "4 · coder", r: "Dev front", m: M.cheap + " → mimo-v2.6-pro", who: "Dev front", desc: "HTML et JS sans build. Travaille en parallèle du back, chacun avec sa part du plan.", text: D.front },
+  { id: "tests", n: "5 · exécuter", r: "Tests", m: "unittest, sans clé d'API", who: "Exécution des tests", desc: "Le code du back est écrit dans un dossier jetable et testé pour de vrai. La sortie est donnée au QA.", text: D.testout, test: true },
+  { id: "qa", n: "6 · vérifier", r: "QA", m: M.strong, who: "QA", desc: "Compare le code aux critères d'acceptation. Les tests font foi pour le back. Il rend un verdict par côté.", text: D.qa }
+];
+const byId = Object.fromEntries(stages.map(s => [s.id, s]));
+const flow = document.getElementById("flow");
+function btn(s) {
+  return `<button class="stage ${s.test ? "test" : ""}" role="tab" id="st-${s.id}" data-id="${s.id}" aria-selected="false">
+    <span class="n">${s.n}</span><span class="r">${s.r}</span><span class="m">${s.m}</span></button>`;
+}
+flow.innerHTML = btn(stages[0]) + btn(stages[1]) + btn(stages[2]) +
+  `<div class="par"><span class="tag">en parallèle</span>${btn(stages[3])}${btn(stages[4])}</div>` +
+  btn(stages[5]) + btn(stages[6]);
+
+const viewer = document.getElementById("viewer");
+function show(id) {
+  const s = byId[id];
+  flow.querySelectorAll(".stage").forEach(b => b.setAttribute("aria-selected", String(b.dataset.id === id)));
+  viewer.innerHTML = `<header><span class="who"></span><span class="model"></span></header><p class="desc"></p><pre></pre>`;
+  viewer.querySelector(".who").textContent = s.who;
+  viewer.querySelector(".model").textContent = s.m;
+  viewer.querySelector(".desc").textContent = s.desc;
+  viewer.querySelector("pre").textContent = s.text;
+}
+flow.addEventListener("click", e => { const b = e.target.closest(".stage"); if (b) show(b.dataset.id); });
+show("po");
+
+const groups = document.getElementById("groups");
+const tname = document.getElementById("tname");
+groups.innerHTML = D.groups.map(g => `<div class="grp"><div class="lab"><span>${g.label}</span><em>${g.tests.length}</em></div>
+  <div class="sqs">${g.tests.map(t => `<button class="sq" aria-label="${t} : réussi" data-t="${t}" data-g="${g.label}"></button>`).join("")}</div></div>`).join("");
+function pick(b) {
+  groups.querySelectorAll(".sq.on").forEach(x => x.classList.remove("on"));
+  b.classList.add("on");
+  tname.innerHTML = "";
+  const n = document.createElement("span"); n.textContent = b.dataset.t + "  ·  " + b.dataset.g + "  ·  ";
+  const ok = document.createElement("b"); ok.textContent = "ok";
+  tname.append(n, ok);
+}
+groups.addEventListener("mouseover", e => { const b = e.target.closest(".sq"); if (b) pick(b); });
+groups.addEventListener("focusin", e => { const b = e.target.closest(".sq"); if (b) pick(b); });
+groups.addEventListener("click", e => { const b = e.target.closest(".sq"); if (b) pick(b); });
+
+const uses = [
+  { k: "Après une réunion", i: "Tes notes de réunion, résumées en une ou deux phrases de demande.", o: "Un cadrage, des stories avec critères d'acceptation et un plan technique.", h: "Tu relis les stories et le plan avant tout code. C'est le point de contrôle.", g: "Un backlog structuré sans repartir d'une page blanche." },
+  { k: "Idée à tester vite", i: "Une phrase qui décrit l'idée.", o: "Un prototype jetable et ses tests, dans un dossier daté.", h: "Tu lances le prototype, tu regardes, tu gardes ou tu jettes.", g: "Savoir en quelques minutes si l'idée tient, avant d'y passer une journée." },
+  { k: "Ticket simple", i: "La description d'un ticket bien cadré.", o: "Du code et des tests, prêts pour une MR en brouillon.", h: "Tu relis comme n'importe quelle MR. Rien n'est fusionné sans toi.", g: "Le squelette et les tests sont faits, il te reste la revue." }
+];
+const usesEl = document.getElementById("uses"), ucEl = document.getElementById("usecase");
+usesEl.innerHTML = uses.map((u, i) => `<button class="use" role="tab" data-i="${i}" aria-selected="false">${u.k}</button>`).join("");
+function showUse(i) {
+  const u = uses[i];
+  usesEl.querySelectorAll(".use").forEach((b, j) => b.setAttribute("aria-selected", String(j === i)));
+  ucEl.innerHTML = [["Tu fournis", u.i], ["L'équipe livre", u.o], ["Tu vérifies", u.h], ["Ce que ça t'apporte", u.g]]
+    .map(c => `<div class="ucol"><small>${c[0]}</small><p>${c[1]}</p></div>`).join("");
+}
+usesEl.addEventListener("click", e => { const b = e.target.closest(".use"); if (b) showUse(+b.dataset.i); });
+showUse(0);
+})();
+</script>
+
+</body>
+</html>

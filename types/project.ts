@@ -7,6 +7,7 @@ export interface ProjectMetadata {
   images?: string[];
   github?: string;
   demo?: string;
+  embed?: string; // page du site à intégrer à la place du carrousel
   featured?: boolean;
 }
 

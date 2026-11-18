@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import ImageCarousel from "./ImageCarousel";
+import EmbedFrame from "./EmbedFrame";
 import { Project } from "@/types/project";
 
 interface ProjectDetailProps {
@@ -15,9 +16,57 @@ interface ProjectDetailProps {
 }
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
+  const body = (
+    <Box
+            sx={{
+              maxWidth: project.embed ? 900 : "none", // démo large, texte lisible
+              color: "#d4d4d8",
+              "& h2": {
+                mt: 4,
+                mb: 2,
+                fontSize: "1.75rem",
+                fontWeight: 300,
+                color: "#ffffff",
+              },
+              "& h3": {
+                mt: 3,
+                mb: 1.5,
+                fontSize: "1.4rem",
+                fontWeight: 400,
+                color: "#ffffff",
+              },
+              "& p": {
+                mb: 2,
+                lineHeight: 1.8,
+                fontSize: "1.05rem",
+                color: "#d4d4d8",
+              },
+              "& ul, & ol": { mb: 2, pl: 3, color: "#d4d4d8" },
+              "& li": { mb: 1, color: "#d4d4d8" },
+              "& code": {
+                backgroundColor: "#18181b",
+                color: "#a1a1aa",
+                padding: "2px 6px",
+                borderRadius: 1,
+                fontSize: "0.9em",
+              },
+              "& pre": {
+                backgroundColor: "#18181b",
+                color: "#a1a1aa",
+                p: 2,
+                borderRadius: 1,
+                overflow: "auto",
+                mb: 2,
+              },
+            }}
+          >
+            <ReactMarkdown>{project.content}</ReactMarkdown>
+    </Box>
+  );
+
   return (
     <Box sx={{ backgroundColor: "transparent", minHeight: "100vh", py: 8 }}>
-      <Container maxWidth="md">
+      <Container maxWidth={project.embed ? "xl" : "md"}>
         <Link href="/" style={{ textDecoration: "none" }}>
           <Button
             startIcon={<ArrowBackIcon />}
@@ -101,7 +150,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             )}
           </Box>
 
-          {project.images && project.images.length > 0 ? (
+          {project.embed ? (
+            <Box sx={{ mb: 4 }}>
+              <EmbedFrame src={project.embed} title={project.title} />
+            </Box>
+          ) : project.images && project.images.length > 0 ? (
             <Box sx={{ mb: 4, borderRadius: 2, overflow: "hidden" }}>
               <ImageCarousel images={project.images} alt={project.title} />
             </Box>
@@ -125,50 +178,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </Box>
           ) : null}
 
-          <Box
-            sx={{
-              color: "#d4d4d8",
-              "& h2": {
-                mt: 4,
-                mb: 2,
-                fontSize: "1.75rem",
-                fontWeight: 300,
-                color: "#ffffff",
-              },
-              "& h3": {
-                mt: 3,
-                mb: 1.5,
-                fontSize: "1.4rem",
-                fontWeight: 400,
-                color: "#ffffff",
-              },
-              "& p": {
-                mb: 2,
-                lineHeight: 1.8,
-                fontSize: "1.05rem",
-                color: "#d4d4d8",
-              },
-              "& ul, & ol": { mb: 2, pl: 3, color: "#d4d4d8" },
-              "& li": { mb: 1, color: "#d4d4d8" },
-              "& code": {
-                backgroundColor: "#18181b",
-                color: "#a1a1aa",
-                padding: "2px 6px",
-                borderRadius: 1,
-                fontSize: "0.9em",
-              },
-              "& pre": {
-                backgroundColor: "#18181b",
-                color: "#a1a1aa",
-                p: 2,
-                borderRadius: 1,
-                overflow: "auto",
-                mb: 2,
-              },
-            }}
-          >
-            <ReactMarkdown>{project.content}</ReactMarkdown>
-          </Box>
+          {body}
         </Paper>
       </Container>
     </Box>
