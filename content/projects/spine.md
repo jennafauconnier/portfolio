@@ -11,6 +11,7 @@ images:
   - /images/spine/case-4-notation.png
   - /images/spine/case-5-journal.png
 github: "https://github.com/jennafauconnier/spine"
+caseStudy: "/etudes-de-cas/spine"
 featured: true
 ---
 

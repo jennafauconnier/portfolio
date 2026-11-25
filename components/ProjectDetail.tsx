@@ -4,6 +4,7 @@ import { Container, Typography, Box, Chip, Button, Paper } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LaunchIcon from "@mui/icons-material/Launch";
+import ArticleIcon from "@mui/icons-material/Article";
 import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
@@ -125,6 +126,21 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 }}
               >
                 GitHub
+              </Button>
+            )}
+            {project.caseStudy && (
+              <Button
+                variant="contained"
+                startIcon={<ArticleIcon />}
+                href={project.caseStudy}
+                sx={{
+                  backgroundColor: "#ffffff",
+                  color: "#09090b",
+                  "&:hover": { backgroundColor: "#e4e4e7" },
+                  textTransform: "none",
+                }}
+              >
+                Étude de cas
               </Button>
             )}
             {project.demo && (

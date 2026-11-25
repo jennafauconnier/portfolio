@@ -8,6 +8,7 @@ export interface ProjectMetadata {
   github?: string;
   demo?: string;
   embed?: string; // page du site à intégrer à la place du carrousel
+  caseStudy?: string; // lien vers une étude de cas dédiée
   featured?: boolean;
 }
 
