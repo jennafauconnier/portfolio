@@ -17,7 +17,7 @@ featured: true
 
 ## Description
 
-Goodreads remplit sa fonction — catalogue, étagères, avis — mais deux gestes quotidiens y coûtent plus cher que le service qu'ils rendent : **noter un livre** demande trois écrans et un formulaire, et **retrouver un livre** se fait dans une liste de texte où le livre et ses éditions se mélangent. Spine reprend ces deux parcours de zéro, en gardant de Letterboxd la mécanique — demi-étoiles, journal daté — et rien de son habillage.
+Goodreads remplit sa fonction — catalogue, étagères, avis — mais deux gestes quotidiens y coûtent plus cher que le service qu'ils rendent : **noter un livre** demande de le trouver, d'ouvrir sa fiche, de viser les étoiles et de valider une feuille, et **retrouver un livre** se fait dans une liste de texte où le livre et ses éditions se mélangent. Spine reprend ces deux parcours de zéro, en gardant de Letterboxd la mécanique — demi-étoiles, journal daté — et rien de son habillage.
 
 Le projet va du cadrage produit au code : brief, user stories, plan technique, trois directions artistiques successivement rejetées, puis une direction retenue et cinq écrans fonctionnels sur iOS.
 

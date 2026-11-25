@@ -1,10 +1,11 @@
 "use client";
 
-import { Box, Container, Typography, Grid, Paper, Chip } from "@mui/material";
+import { Box, Container, Typography, Paper, Chip } from "@mui/material";
 import CodeIcon from "@mui/icons-material/Code";
 import StorageIcon from "@mui/icons-material/Storage";
 import DesignServicesIcon from "@mui/icons-material/DesignServices";
 import BuildIcon from "@mui/icons-material/Build";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 const skillCategories = [
   {
@@ -23,6 +24,11 @@ const skillCategories = [
       "PostgreSQL",
       "MongoDB",
     ],
+  },
+  {
+    title: "IA & Produit",
+    icon: <AutoAwesomeIcon sx={{ fontSize: 40 }} />,
+    skills: ["Python LLM", "Agents IA", "Product"],
   },
   {
     title: "Design",
@@ -53,9 +59,14 @@ export default function Skills() {
         >
           Compétences
         </Typography>
-        <Grid container spacing={4}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(5, 1fr)" },
+            gap: 3,
+          }}
+        >
           {skillCategories.map((category) => (
-            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={category.title}>
               <Paper
                 elevation={0}
                 sx={{
@@ -127,9 +138,8 @@ export default function Skills() {
                   ))}
                 </Box>
               </Paper>
-            </Grid>
           ))}
-        </Grid>
+        </Box>
       </Container>
     </Box>
   );

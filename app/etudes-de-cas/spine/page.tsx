@@ -170,8 +170,8 @@ export default function SpineCaseStudy() {
           Refaire les deux gestes que Goodreads rate
         </Typography>
         <Typography sx={{ fontSize: "1.1rem", lineHeight: 1.75, color: "#a1a1aa", maxWidth: 640, mb: 5 }}>
-          Noter un livre et le retrouver. Deux gestes quotidiens, trois écrans et un formulaire chez Goodreads.
-          Spine les ramène à un pouce, deux taps et une trace datée.
+          Noter un livre et le retrouver. Deux gestes quotidiens que Goodreads fait payer quatre étapes et une
+          feuille à valider. Spine les ramène à un pouce, deux taps et une trace datée.
         </Typography>
 
         <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr 1fr", md: "repeat(4, 1fr)" }, gap: { xs: 3, md: 4 }, mb: 6 }}>
