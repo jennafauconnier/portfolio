@@ -8,7 +8,7 @@ images:
   - /images/spine/case-1-mes-livres-2.png
   - /images/spine/case-2-chercher-2.png
   - /images/spine/case-3-fiche-2.png
-  - /images/spine/case-4-notation-2.png
+  - /images/spine/case-4-notation-b.png
   - /images/spine/case-5-journal-2.png
 github: "https://github.com/jennafauconnier/spine"
 caseStudy: "/etudes-de-cas/spine"

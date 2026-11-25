@@ -80,7 +80,7 @@ const SCREENS: Screen[] = [
   {
     n: "04",
     title: "La notation — deux gestes, une demi-étoile",
-    img: "/images/spine/case-4-notation-2.png",
+    img: "/images/spine/case-4-notation-b.png",
     alt: "Écran de notation de Spine",
     rows: [
       {
