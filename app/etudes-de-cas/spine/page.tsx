@@ -18,7 +18,7 @@ const SCREENS: Screen[] = [
   {
     n: "01",
     title: "Mes livres — la bibliothèque avant le flux",
-    img: "/images/spine/case-1-mes-livres.png",
+    img: "/images/spine/case-1-mes-livres-2.png",
     alt: "Écran Mes livres de Spine",
     rows: [
       {
@@ -40,7 +40,7 @@ const SCREENS: Screen[] = [
   {
     n: "02",
     title: "Chercher — reconnaître, pas lire",
-    img: "/images/spine/case-2-chercher.png",
+    img: "/images/spine/case-2-chercher-2.png",
     alt: "Écran Chercher de Spine",
     rows: [
       {
@@ -60,7 +60,7 @@ const SCREENS: Screen[] = [
   {
     n: "03",
     title: "La fiche — décider en une hauteur d'écran",
-    img: "/images/spine/case-3-fiche.png",
+    img: "/images/spine/case-3-fiche-2.png",
     alt: "Écran fiche livre de Spine",
     rows: [
       {
@@ -80,11 +80,12 @@ const SCREENS: Screen[] = [
   {
     n: "04",
     title: "La notation — deux gestes, une demi-étoile",
-    img: "/images/spine/case-4-notation.png",
+    img: "/images/spine/case-4-notation-2.png",
     alt: "Écran de notation de Spine",
     rows: [
       {
-        problem: "5 étoiles entières, dans un formulaire séparé de la fiche.",
+        problem:
+          "Les étoiles sont sur la fiche, mais les toucher ouvre une feuille qu'il faut encore valider, et l'échelle reste entière.",
         decision:
           "Une feuille modale par-dessus la fiche : cinq étoiles de 32 pt, le chiffre en 38 pt, deux gestes.",
       },
@@ -101,12 +102,18 @@ const SCREENS: Screen[] = [
   {
     n: "05",
     title: "Le journal — la trace datée",
-    img: "/images/spine/case-5-journal.png",
+    img: "/images/spine/case-5-journal-2.png",
     alt: "Écran Journal de Spine",
     rows: [
       {
-        problem: "La note remplace la précédente, sans date.",
-        decision: "Chaque note crée une entrée datée : relire crée une deuxième entrée au lieu d'écraser la première.",
+        problem: "La note remplace la précédente : aucune trace de ce qu'on a lu avant.",
+        decision: "Chaque note crée une entrée, et relire en crée une deuxième au lieu d'écraser la première.",
+      },
+      {
+        problem:
+          "Des dates réduites à un jour et un mois (« 08 NOV ») : ni l'année, ni le jour de la semaine, et ça ne raconte rien.",
+        decision:
+          "Un en-tête de mois (« novembre 2026 »), le jour en gros et le jour de la semaine en clair ; la date complète reste dans le libellé vocal.",
       },
       {
         problem: "Aucun état hors ligne : la note est perdue sans réseau.",
@@ -197,15 +204,15 @@ export default function SpineCaseStudy() {
         <Box sx={{ display: "grid", gap: 2, mb: 4 }}>
           {[
             [
-              "Noter demande 3 écrans : fiche → « Write a review » → formulaire → 5 étoiles entières",
-              "On ne note pas en passant. La note arrive des jours plus tard, ou jamais.",
+              "Noter demande de trouver le livre, d'ouvrir sa fiche, de viser les étoiles — puis une feuille s'ouvre et il faut encore confirmer",
+              "Quatre étapes pour un geste. On ne note pas en passant, donc on ne note pas.",
             ],
             [
               "La recherche rend une liste de texte, livre et éditions mélangés",
               "On cherche un livre vu en librairie et on tombe sur une édition de 1994.",
             ],
             [
-              "Aucune trace datée : une note écrase la précédente",
+              "Aucune date : une note écrase la précédente",
               "Impossible de dire « lu en novembre », ni de relire sans perdre l'ancienne note.",
             ],
           ].map(([p, c]) => (

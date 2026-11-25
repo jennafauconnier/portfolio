@@ -3,13 +3,13 @@ title: "Spine - Refonte de la notation et de la découverte de livres"
 description: "Refonte UX de deux parcours de Goodreads : noter un livre et le retrouver. Cinq écrans React Native, deux thèmes, et une équipe d'agents pour la conception"
 date: "2026-11-25"
 tags: ["React Native", "Expo", "TypeScript", "UX", "Design system", "Agents LLM"]
-image: "/images/spine/case-1-mes-livres.png"
+image: "/images/spine/case-1-mes-livres-2.png"
 images:
-  - /images/spine/case-1-mes-livres.png
-  - /images/spine/case-2-chercher.png
-  - /images/spine/case-3-fiche.png
-  - /images/spine/case-4-notation.png
-  - /images/spine/case-5-journal.png
+  - /images/spine/case-1-mes-livres-2.png
+  - /images/spine/case-2-chercher-2.png
+  - /images/spine/case-3-fiche-2.png
+  - /images/spine/case-4-notation-2.png
+  - /images/spine/case-5-journal-2.png
 github: "https://github.com/jennafauconnier/spine"
 caseStudy: "/etudes-de-cas/spine"
 featured: true
@@ -23,10 +23,10 @@ Le projet va du cadrage produit au code : brief, user stories, plan technique, t
 
 ## Le problème
 
-- **Noter coûte trois écrans** : fiche → « Write a review » → formulaire web → cinq étoiles entières. On ne note pas en passant, donc on ne note pas.
+- **Noter coûte quatre étapes** : il faut trouver le livre, ouvrir sa fiche, viser les étoiles — et une feuille s'ouvre encore pour confirmer. On ne note pas en passant, donc on ne note pas.
 - **Impossible de mettre 4,5** : l'échelle est entière, alors qu'un lecteur distingue rarement 3 et 4 d'un cran franc.
 - **La recherche est une liste de texte** : le livre et ses éditions se confondent, la couverture — ce qu'on reconnaît d'un livre — est une vignette de 40 px.
-- **Aucune trace datée** : une note écrase la précédente. Impossible de dire « lu en novembre », ni de relire un livre en gardant les deux notes.
+- **Aucune date** : une note écrase la précédente, et l'unique repère est un « 08 NOV » sans année ni jour de semaine. Impossible de dire « lu en novembre », ni de relire un livre en gardant les deux notes.
 
 ## Les cinq écrans
 
@@ -34,7 +34,7 @@ Le projet va du cadrage produit au code : brief, user stories, plan technique, t
 - **Chercher** — une ligne par résultat : couverture, titre, auteur · année, et un seul bouton « Ajouter ». On sait en un regard si le livre est déjà dans sa bibliothèque.
 - **Fiche** — quatre lignes d'information, une note communautaire, un extrait, un résumé, et un bouton pleine largeur en bas. On décide en une hauteur d'écran, sans scroller.
 - **Notation** — une feuille modale par-dessus la fiche : cinq étoiles de 32 pt, la moitié gauche donnant la demi-note, le chiffre en 38 pt. Deux gestes, le livre reste visible, et « 4,5 / 5 » lève toute ambiguïté.
-- **Journal** — chaque note crée une entrée datée, avec avis et statut. Relire crée une deuxième entrée au lieu d'écraser la première.
+- **Journal** — chaque note crée une entrée datée, groupée par mois (« novembre 2026 »), avec le jour en gros, le jour de la semaine en clair et la date complète pour le lecteur d'écran. Relire crée une deuxième entrée au lieu d'écraser la première.
 
 ## Design system
 
