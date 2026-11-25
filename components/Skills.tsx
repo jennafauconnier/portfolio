@@ -11,7 +11,7 @@ const skillCategories = [
   {
     title: "Frontend",
     icon: <CodeIcon sx={{ fontSize: 40 }} />,
-    skills: ["React Native", "Expo", "Next.js", "TypeScript"],
+    skills: ["React.js", "Tanstack", "React Native", "Expo", "Next.js", "TypeScript"],
   },
   {
     title: "Backend",
