@@ -5,6 +5,7 @@ date: "2026-11-18"
 tags: ["Python", "OpenRouter", "DeepSeek", "Mimo", "hy4", "unittest"]
 image: "/images/agents-team/pipeline.png"
 github: "https://github.com/jennafauconnier/agents-team"
+caseStudy: "/etudes-de-cas/agents-team"
 embed: "/demos/agents-team/index.html?embed=1&v=5"
 featured: true
 ---
