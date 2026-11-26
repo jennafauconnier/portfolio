@@ -21,39 +21,39 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
     <Box
             sx={{
               maxWidth: project.embed ? 900 : "none", // démo large, texte lisible
-              color: "#d4d4d8",
+              color: "var(--c-soft)",
               "& h2": {
                 mt: 4,
                 mb: 2,
                 fontSize: "1.75rem",
                 fontWeight: 300,
-                color: "#ffffff",
+                color: "var(--c-strong)",
               },
               "& h3": {
                 mt: 3,
                 mb: 1.5,
                 fontSize: "1.4rem",
                 fontWeight: 400,
-                color: "#ffffff",
+                color: "var(--c-strong)",
               },
               "& p": {
                 mb: 2,
                 lineHeight: 1.8,
                 fontSize: "1.05rem",
-                color: "#d4d4d8",
+                color: "var(--c-soft)",
               },
-              "& ul, & ol": { mb: 2, pl: 3, color: "#d4d4d8" },
-              "& li": { mb: 1, color: "#d4d4d8" },
+              "& ul, & ol": { mb: 2, pl: 3, color: "var(--c-soft)" },
+              "& li": { mb: 1, color: "var(--c-soft)" },
               "& code": {
-                backgroundColor: "#18181b",
-                color: "#a1a1aa",
+                backgroundColor: "var(--c-chip)",
+                color: "var(--c-body)",
                 padding: "2px 6px",
                 borderRadius: 1,
                 fontSize: "0.9em",
               },
               "& pre": {
-                backgroundColor: "#18181b",
-                color: "#a1a1aa",
+                backgroundColor: "var(--c-chip)",
+                color: "var(--c-body)",
                 p: 2,
                 borderRadius: 1,
                 overflow: "auto",
@@ -71,7 +71,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
         <Link href="/" style={{ textDecoration: "none" }}>
           <Button
             startIcon={<ArrowBackIcon />}
-            sx={{ mb: 4, color: "#71717a", "&:hover": { color: "#ffffff" } }}
+            sx={{ mb: 4, color: "var(--c-muted)", "&:hover": { color: "var(--c-strong)" } }}
           >
             Retour
           </Button>
@@ -82,7 +82,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             variant="h3"
             component="h1"
             gutterBottom
-            sx={{ fontWeight: 300, letterSpacing: "-0.02em", color: "#ffffff" }}
+            sx={{ fontWeight: 300, letterSpacing: "-0.02em", color: "var(--c-strong)" }}
           >
             {project.title}
           </Typography>
@@ -95,11 +95,11 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 size="small"
                 sx={{
                   fontSize: "0.75rem",
-                  backgroundColor: "#18181b",
-                  border: "1px solid #27272a",
-                  color: "#a1a1aa",
+                  backgroundColor: "var(--c-chip)",
+                  border: "1px solid var(--c-line)",
+                  color: "var(--c-body)",
                   fontWeight: 400,
-                  "&:hover": { borderColor: "#3f3f46", color: "#ffffff" },
+                  "&:hover": { borderColor: "var(--c-line-strong)", color: "var(--c-strong)" },
                   transition: "all 0.2s ease",
                 }}
               />
@@ -115,12 +115,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  borderColor: "#27272a",
-                  color: "#a1a1aa",
+                  borderColor: "var(--c-line)",
+                  color: "var(--c-body)",
                   "&:hover": {
-                    borderColor: "#3f3f46",
-                    color: "#ffffff",
-                    backgroundColor: "rgba(255,255,255,0.04)",
+                    borderColor: "var(--c-line-strong)",
+                    color: "var(--c-strong)",
+                    backgroundColor: "var(--c-hover)",
                   },
                   textTransform: "none",
                 }}
@@ -134,9 +134,9 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 startIcon={<ArticleIcon />}
                 href={project.caseStudy}
                 sx={{
-                  backgroundColor: "#ffffff",
-                  color: "#09090b",
-                  "&:hover": { backgroundColor: "#e4e4e7" },
+                  backgroundColor: "var(--c-strong)",
+                  color: "var(--c-bg)",
+                  "&:hover": { backgroundColor: "var(--c-wash)" },
                   textTransform: "none",
                 }}
               >
@@ -151,12 +151,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{
-                  borderColor: "#27272a",
-                  color: "#a1a1aa",
+                  borderColor: "var(--c-line)",
+                  color: "var(--c-body)",
                   "&:hover": {
-                    borderColor: "#3f3f46",
-                    color: "#ffffff",
-                    backgroundColor: "rgba(255,255,255,0.04)",
+                    borderColor: "var(--c-line-strong)",
+                    color: "var(--c-strong)",
+                    backgroundColor: "var(--c-hover)",
                   },
                   textTransform: "none",
                 }}

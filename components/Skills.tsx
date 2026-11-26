@@ -54,7 +54,7 @@ export default function Skills() {
             fontWeight: 300,
             letterSpacing: "-0.02em",
             mb: 6,
-            color: "#ffffff",
+            color: "var(--c-strong)",
           }}
         >
           Compétences
@@ -76,20 +76,20 @@ export default function Skills() {
                   flexDirection: "column",
                   alignItems: "center",
                   transition: "all 0.3s ease",
-                  backgroundColor: "#0a0a0a",
-                  border: "1px solid #1a1a1a",
+                  backgroundColor: "var(--c-card)",
+                  border: "1px solid var(--c-card-line)",
                   "&:hover": {
                     transform: "translateY(-8px)",
-                    borderColor: "#27272a",
-                    boxShadow: "0 8px 24px rgba(255, 255, 255, 0.04)",
+                    borderColor: "var(--c-line)",
+                    boxShadow: "0 8px 24px var(--c-hover)",
                   },
                 }}
               >
                 <Box
                   sx={{
-                    color: "#ffffff",
-                    backgroundColor: "#18181b",
-                    border: "1px solid #27272a",
+                    color: "var(--c-strong)",
+                    backgroundColor: "var(--c-chip)",
+                    border: "1px solid var(--c-line)",
                     borderRadius: "50%",
                     width: 80,
                     height: 80,
@@ -104,7 +104,7 @@ export default function Skills() {
                 <Typography
                   variant="h6"
                   gutterBottom
-                  sx={{ fontWeight: 500, color: "#ffffff" }}
+                  sx={{ fontWeight: 500, color: "var(--c-strong)" }}
                 >
                   {category.title}
                 </Typography>
@@ -124,13 +124,13 @@ export default function Skills() {
                       size="small"
                       sx={{
                         fontSize: "0.75rem",
-                        backgroundColor: "#18181b",
-                        border: "1px solid #27272a",
-                        color: "#a1a1aa",
+                        backgroundColor: "var(--c-chip)",
+                        border: "1px solid var(--c-line)",
+                        color: "var(--c-body)",
                         fontWeight: 400,
                         "&:hover": {
-                          borderColor: "#3f3f46",
-                          color: "#ffffff",
+                          borderColor: "var(--c-line-strong)",
+                          color: "var(--c-strong)",
                         },
                         transition: "all 0.2s ease",
                       }}

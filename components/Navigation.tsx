@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,9 +40,9 @@ export default function Navigation() {
       position="fixed"
       elevation={0}
       sx={{
-        background: isScrolled ? "rgba(10, 10, 10, 0.8)" : "transparent",
+        background: isScrolled ? "var(--c-nav)" : "transparent",
         backdropFilter: isScrolled ? "blur(20px)" : "none",
-        borderBottom: isScrolled ? "1px solid rgba(39, 39, 42, 0.8)" : "none",
+        borderBottom: isScrolled ? "1px solid var(--c-line)" : "none",
         transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
@@ -55,7 +56,7 @@ export default function Navigation() {
               variant="h6"
               sx={{
                 fontWeight: 700,
-                color: "#ffffff",
+                color: "var(--c-strong)",
                 fontSize: "1.25rem",
                 letterSpacing: "-0.02em",
               }}
@@ -78,7 +79,7 @@ export default function Navigation() {
                 <Button
                   onClick={() => handleNavClick(item.id)}
                   sx={{
-                    color: "#ffffff",
+                    color: "var(--c-strong)",
                     fontWeight: 500,
                     fontSize: "0.95rem",
                     px: 2,
@@ -93,6 +94,8 @@ export default function Navigation() {
                 </Button>
               </Link>
             ))}
+            <Box sx={{ width: "1px", height: 20, ml: 1, bgcolor: "var(--c-line)" }} />
+            <ThemeToggle />
           </Box>
         </Toolbar>
       </Container>

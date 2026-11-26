@@ -111,10 +111,10 @@ export default function AgentsTeamCaseStudy() {
       <SectionTitle>Ce que le projet apprend</SectionTitle>
       <BulletedList
         items={[
-          "<b style='color:#e4e4e7'>Le QA qui relit se laisse convaincre</b> : il faut exécuter les tests, pas relire le code.",
-          "<b style='color:#e4e4e7'>Un test faux, pas forcément un code faux</b> : quand un test échoue de façon subtile, le QA doit recalculer à la main.",
-          "<b style='color:#e4e4e7'>Les modèles à raisonnement renvoient du vide</b> quand ils épuisent leurs tokens : un repli bascule sur un autre modèle.",
-          "<b style='color:#e4e4e7'>Le budget plafonné</b> empêche d&apos;escalader un modèle fort pour tout, et force à mesurer.",
+          "<b style='color:var(--c-wash)'>Le QA qui relit se laisse convaincre</b> : il faut exécuter les tests, pas relire le code.",
+          "<b style='color:var(--c-wash)'>Un test faux, pas forcément un code faux</b> : quand un test échoue de façon subtile, le QA doit recalculer à la main.",
+          "<b style='color:var(--c-wash)'>Les modèles à raisonnement renvoient du vide</b> quand ils épuisent leurs tokens : un repli bascule sur un autre modèle.",
+          "<b style='color:var(--c-wash)'>Le budget plafonné</b> empêche d&apos;escalader un modèle fort pour tout, et force à mesurer.",
         ]}
       />
 

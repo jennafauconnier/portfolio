@@ -38,8 +38,8 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
           maxHeight: 700,
           maxWidth: 380,
           mx: "auto",
-          backgroundColor: "#0a0a0a",
-          border: "1px solid #1a1a1a",
+          backgroundColor: "var(--c-card)",
+          border: "1px solid var(--c-card-line)",
           borderRadius: 2,
           overflow: "hidden",
         }}
@@ -55,8 +55,8 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
               gap: 2,
             }}
           >
-            <Typography sx={{ color: "#71717a" }}>Image non trouvée</Typography>
-            <Typography sx={{ color: "#3f3f46", fontSize: "0.8rem" }}>
+            <Typography sx={{ color: "var(--c-muted)" }}>Image non trouvée</Typography>
+            <Typography sx={{ color: "var(--c-line-strong)", fontSize: "0.8rem" }}>
               {images[currentIndex]}
             </Typography>
           </Box>
@@ -81,10 +81,10 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
                 left: 8,
                 top: "50%",
                 transform: "translateY(-50%)",
-                backgroundColor: "#18181b",
-                border: "1px solid #27272a",
-                color: "#a1a1aa",
-                "&:hover": { borderColor: "#3f3f46", color: "#ffffff" },
+                backgroundColor: "var(--c-chip)",
+                border: "1px solid var(--c-line)",
+                color: "var(--c-body)",
+                "&:hover": { borderColor: "var(--c-line-strong)", color: "var(--c-strong)" },
                 zIndex: 2,
               }}
             >
@@ -98,10 +98,10 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
                 right: 8,
                 top: "50%",
                 transform: "translateY(-50%)",
-                backgroundColor: "#18181b",
-                border: "1px solid #27272a",
-                color: "#a1a1aa",
-                "&:hover": { borderColor: "#3f3f46", color: "#ffffff" },
+                backgroundColor: "var(--c-chip)",
+                border: "1px solid var(--c-line)",
+                color: "var(--c-body)",
+                "&:hover": { borderColor: "var(--c-line-strong)", color: "var(--c-strong)" },
                 zIndex: 2,
               }}
             >
@@ -133,15 +133,15 @@ export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
                   width: 8,
                   height: 8,
                   borderRadius: "50%",
-                  bgcolor: index === currentIndex ? "#ffffff" : "#3f3f46",
+                  bgcolor: index === currentIndex ? "var(--c-strong)" : "var(--c-line-strong)",
                   cursor: "pointer",
                   transition: "all 0.2s",
-                  "&:hover": { bgcolor: "#71717a" },
+                  "&:hover": { bgcolor: "var(--c-muted)" },
                 }}
               />
             ))}
           </Box>
-          <Typography sx={{ color: "#52525b", fontSize: "0.75rem" }}>
+          <Typography sx={{ color: "var(--c-faint)", fontSize: "0.75rem" }}>
             {currentIndex + 1} / {images.length}
           </Typography>
         </Box>

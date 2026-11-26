@@ -34,12 +34,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: var(--c-line);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: var(--c-line-strong);
 }
 
 ::selection {
@@ -48,10 +48,76 @@ body {
 }
 
 /* ========================================
-   Full Black Theme (dark only)
+   Thèmes : clair par défaut, sombre via la classe .dark sur <html>
+   (posée avant le rendu par le script de app/layout.tsx)
+   --c-* = palette des composants (gamme zinc inversée)
    ======================================== */
 
 :root {
+  color-scheme: light;
+  /* Clair : gris ardoise (bleutés) + bleu/indigo des halos du thème sombre */
+  --c-bg: #f8fafc;
+  --c-card: #ffffff;
+  --c-card-line: #e2e8f0;
+  --c-chip: #eff6ff;
+  --c-line: #dbe4f0;
+  --c-line-strong: #93c5fd;
+  --c-faint: #94a3b8;
+  --c-muted: #64748b;
+  --c-body: #475569;
+  --c-soft: #334155;
+  --c-wash: #1e293b;
+  --c-strong: #0f172a;
+  --c-hero-end: #3b82f6;
+  --c-hover: rgba(59, 130, 246, 0.08);
+  --c-hover-soft: rgba(59, 130, 246, 0.03);
+  --c-nav: rgba(248, 250, 252, 0.8);
+
+  --background: oklch(0.984 0.003 247.858);
+  --foreground: oklch(0.141 0.005 285.8);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.8);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.8);
+  --primary: oklch(0.21 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.967 0 0);
+  --secondary-foreground: oklch(0.21 0 0);
+  --muted: oklch(0.967 0 0);
+  --muted-foreground: oklch(0.552 0.016 285.9);
+  --accent: oklch(0.967 0 0);
+  --accent-foreground: oklch(0.21 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0 0 0 / 8%);
+  --input: oklch(0 0 0 / 12%);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+
+  --rainbow-blue: 217 91% 60%;
+  --rainbow-pink: 330 81% 60%;
+  --rainbow-cyan: 180 77% 50%;
+  --stripe-color: rgba(0, 0, 0, 0.3);
+}
+
+.dark {
+  color-scheme: dark;
+  --c-bg: #000000;
+  --c-card: #0a0a0a;
+  --c-card-line: #1a1a1a;
+  --c-chip: #18181b;
+  --c-line: #27272a;
+  --c-line-strong: #3f3f46;
+  --c-faint: #52525b;
+  --c-muted: #71717a;
+  --c-body: #a1a1aa;
+  --c-soft: #d4d4d8;
+  --c-wash: #e4e4e7;
+  --c-strong: #ffffff;
+  --c-hero-end: #94a3b8;
+  --c-hover: rgba(255, 255, 255, 0.04);
+  --c-hover-soft: rgba(255, 255, 255, 0.02);
+  --c-nav: rgba(10, 10, 10, 0.8);
+
   --background: oklch(0 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.07 0 0);

@@ -18,13 +18,13 @@ export default function Projects({ projects }: ProjectsProps) {
             fontWeight: 300,
             letterSpacing: "-0.02em",
             mb: 6,
-            color: "#ffffff",
+            color: "var(--c-strong)",
           }}
         >
           Mes Projets
         </Typography>
         {projects.length === 0 ? (
-          <Typography variant="body1" align="center" sx={{ color: "#71717a" }}>
+          <Typography variant="body1" align="center" sx={{ color: "var(--c-muted)" }}>
             Aucun projet pour le moment.
           </Typography>
         ) : (

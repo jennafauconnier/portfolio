@@ -11,11 +11,11 @@ export default function Footer() {
         px: 2,
         mt: "auto",
         backgroundColor: "transparent",
-        borderTop: "1px solid rgba(255, 255, 255, 0.08)",
+        borderTop: "1px solid var(--c-line)",
       }}
     >
       <Container maxWidth="lg">
-        <Typography variant="body2" align="center" sx={{ color: "#71717a" }}>
+        <Typography variant="body2" align="center" sx={{ color: "var(--c-muted)" }}>
           © {new Date().getFullYear()} Imaginé et réalisé avec ❤️ par Jenna
           Diop.
         </Typography>

@@ -178,7 +178,7 @@ export default function SpineCaseStudy() {
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 4 }}>
         {TOKENS.map((t) => (
           <Box key={t.hex} sx={{ width: 84 }}>
-            <Box sx={{ height: 52, borderRadius: 2, backgroundColor: t.hex, border: "1px solid rgba(255,255,255,0.1)" }} />
+            <Box sx={{ height: 52, borderRadius: 2, backgroundColor: t.hex, border: "1px solid var(--c-line)" }} />
             <Typography sx={{ fontSize: "0.62rem", color: C.faint, mt: 0.75, fontFamily: "monospace" }}>{t.hex}</Typography>
             <Typography sx={{ fontSize: "0.62rem", color: C.muted }}>{t.label}</Typography>
           </Box>
@@ -214,9 +214,9 @@ export default function SpineCaseStudy() {
 
       <BulletedList
         items={[
-          "<b style='color:#e4e4e7'>Le coût est dans les décisions</b> : onze centimes de conception, zéro de code — mais trois allers-retours de design, parce que le brief ne disait pas ce qu'il interdisait.",
-          "<b style='color:#e4e4e7'>Un modèle ne mesure pas</b> : le calcul de contraste est passé dans un script, et le goût est redevenu une décision humaine.",
-          "<b style='color:#e4e4e7'>La critique vaut mieux que la génération</b> : le même pipeline qui produit trois directions moyennes produit une critique utile.",
+          "<b style='color:var(--c-wash)'>Le coût est dans les décisions</b> : onze centimes de conception, zéro de code — mais trois allers-retours de design, parce que le brief ne disait pas ce qu'il interdisait.",
+          "<b style='color:var(--c-wash)'>Un modèle ne mesure pas</b> : le calcul de contraste est passé dans un script, et le goût est redevenu une décision humaine.",
+          "<b style='color:var(--c-wash)'>La critique vaut mieux que la génération</b> : le même pipeline qui produit trois directions moyennes produit une critique utile.",
         ]}
       />
 

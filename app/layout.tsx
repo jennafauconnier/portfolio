@@ -23,7 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={cn("dark font-sans", sora.variable)}>
+    // suppressHydrationWarning : le script ci-dessous ajuste la classe .dark avant l'hydratation.
+    <html lang="fr" className={cn("dark font-sans", sora.variable)} suppressHydrationWarning>
+      <head>
+        {/* Applique le thème avant le premier affichage (évite le flash). Sans JS : sombre. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("theme");document.documentElement.classList.toggle("dark",t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches)}catch(e){}`,
+          }}
+        />
+      </head>
       <body>
         <BackgroundGlow />
         <Navigation />
