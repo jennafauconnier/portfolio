@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import ImageCarousel from "./ImageCarousel";
+import PhoneGallery from "./PhoneGallery";
 import EmbedFrame from "./EmbedFrame";
 import { Project } from "@/types/project";
 
@@ -170,6 +171,8 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             <Box sx={{ mb: 4 }}>
               <EmbedFrame src={project.embed} title={project.title} />
             </Box>
+          ) : project.gallery && project.images && project.images.length > 0 ? (
+            <PhoneGallery images={project.images} alt={project.title} />
           ) : project.images && project.images.length > 0 ? (
             <Box sx={{ mb: 4, borderRadius: 2, overflow: "hidden" }}>
               <ImageCarousel images={project.images} alt={project.title} />

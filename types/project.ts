@@ -9,6 +9,7 @@ export interface ProjectMetadata {
   demo?: string;
   embed?: string; // page du site à intégrer à la place du carrousel
   caseStudy?: string; // lien vers une étude de cas dédiée
+  gallery?: boolean; // afficher les captures en grille téléphone (sinon carrousel)
   featured?: boolean;
 }
 
