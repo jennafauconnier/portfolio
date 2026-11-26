@@ -8,22 +8,36 @@ import {
   Button,
   Container,
   Box,
+  IconButton,
 } from "@mui/material";
+import DarkModeOutlined from "@mui/icons-material/DarkModeOutlined";
+import LightModeOutlined from "@mui/icons-material/LightModeOutlined";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [dark, setDark] = useState(true);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
   useEffect(() => {
+    setDark(document.documentElement.classList.contains("dark"));
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    try {
+      localStorage.setItem("theme", dark ? "dark" : "light");
+    } catch {
+      /* ignore */
+    }
+  }, [dark]);
 
   const handleNavClick = (sectionId: string) => {
     if (isHomePage) {
@@ -39,9 +53,9 @@ export default function Navigation() {
       position="fixed"
       elevation={0}
       sx={{
-        background: isScrolled ? "rgba(10, 10, 10, 0.8)" : "transparent",
+        background: isScrolled ? "var(--t-nav)" : "transparent",
         backdropFilter: isScrolled ? "blur(20px)" : "none",
-        borderBottom: isScrolled ? "1px solid rgba(39, 39, 42, 0.8)" : "none",
+        borderBottom: isScrolled ? "1px solid var(--t-nav-border)" : "none",
         transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
@@ -55,7 +69,7 @@ export default function Navigation() {
               variant="h6"
               sx={{
                 fontWeight: 700,
-                color: "#ffffff",
+                color: "var(--t-ink)",
                 fontSize: "1.25rem",
                 letterSpacing: "-0.02em",
               }}
@@ -78,7 +92,7 @@ export default function Navigation() {
                 <Button
                   onClick={() => handleNavClick(item.id)}
                   sx={{
-                    color: "#ffffff",
+                    color: "var(--t-ink)",
                     fontWeight: 500,
                     fontSize: "0.95rem",
                     px: 2,
@@ -93,6 +107,13 @@ export default function Navigation() {
                 </Button>
               </Link>
             ))}
+            <IconButton
+              onClick={() => setDark((d) => !d)}
+              aria-label={dark ? "Passer au thème clair" : "Passer au thème sombre"}
+              sx={{ color: "var(--t-ink)", ml: 1, "&:hover": { bgcolor: "var(--t-accent-hover-transparent, rgba(59,130,246,0.12))" } }}
+            >
+              {dark ? <LightModeOutlined fontSize="small" /> : <DarkModeOutlined fontSize="small" />}
+            </IconButton>
           </Box>
         </Toolbar>
       </Container>

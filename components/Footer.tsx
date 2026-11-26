@@ -15,7 +15,7 @@ export default function Footer() {
       }}
     >
       <Container maxWidth="lg">
-        <Typography variant="body2" align="center" sx={{ color: "#71717a" }}>
+        <Typography variant="body2" align="center" sx={{ color: "var(--t-muted)" }}>
           © {new Date().getFullYear()} Imaginé et réalisé avec ❤️ par Jenna
           Diop.
         </Typography>

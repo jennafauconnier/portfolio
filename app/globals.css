@@ -218,3 +218,81 @@ body {
     font-family: var(--font-sans), sans-serif !important;
   }
 }
+
+/* ========================================
+   Thème — dark par défaut, clair « A » en option
+   .dark sur <html> = sombre ; absence = clair A
+   ======================================== */
+:root {
+  --background: #f6f8fb;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #eef1f7;
+  --secondary-foreground: #0f172a;
+  --muted: #eef1f7;
+  --muted-foreground: #64748b;
+  --accent: #eef1f7;
+  --accent-foreground: #0f172a;
+  --border: rgba(15, 23, 42, 0.1);
+  --input: rgba(15, 23, 42, 0.15);
+  --ring: #2563eb;
+
+  --t-bg: #f6f8fb;
+  --t-surface: #ffffff;
+  --t-chip: #eef1f7;
+  --t-card: #ffffff;
+  --t-ink: #0f172a;
+  --t-ink2: #334155;
+  --t-ink3: #64748b;
+  --t-muted: #8a94a8;
+  --t-line: #e2e8f0;
+  --t-line2: #cbd5e1;
+  --t-accent: #2563eb;
+  --t-accent-hover: #1d4ed8;
+  --t-nav: rgba(246, 248, 251, 0.82);
+  --t-nav-border: rgba(15, 23, 42, 0.08);
+}
+
+:root.dark {
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.07 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.07 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.87 0 0);
+  --primary-foreground: oklch(0.07 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.6 0 0);
+  --accent: oklch(0.2 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.556 0 0);
+
+  --t-bg: #0a0a0a;
+  --t-surface: #0a0a0a;
+  --t-chip: #18181b;
+  --t-card: rgba(255, 255, 255, 0.03);
+  --t-ink: #ffffff;
+  --t-ink2: #d4d4d8;
+  --t-ink3: #a1a1aa;
+  --t-muted: #71717a;
+  --t-line: #27272a;
+  --t-line2: #3f3f46;
+  --t-accent: #2563eb;
+  --t-accent-hover: #3b82f6;
+  --t-nav: rgba(10, 10, 10, 0.8);
+  --t-nav-border: rgba(39, 39, 42, 0.8);
+}
+
+.spotlight-nav-bg {
+  background: var(--t-nav);
+}

@@ -26,11 +26,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         display: "flex",
         flexDirection: "column",
         transition: "all 0.3s ease",
-        backgroundColor: "#0a0a0a",
-        border: "1px solid #1a1a1a",
+        backgroundColor: "var(--t-surface)",
+        border: "1px solid var(--t-line)",
         "&:hover": {
           transform: "translateY(-8px)",
-          borderColor: "#27272a",
+          borderColor: "var(--t-line)",
           boxShadow: "0 8px 24px rgba(255, 255, 255, 0.04)",
         },
       }}
@@ -78,14 +78,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             sx={{
               fontWeight: 500,
               cursor: "pointer",
-              color: "#ffffff",
-              "&:hover": { color: "#d4d4d8" },
+              color: "var(--t-ink)",
+              "&:hover": { color: "var(--t-ink2)" },
             }}
           >
             {project.title}
           </Typography>
         </Link>
-        <Typography variant="body2" sx={{ flexGrow: 1, mb: 2, color: "#71717a" }}>
+        <Typography variant="body2" sx={{ flexGrow: 1, mb: 2, color: "var(--t-muted)" }}>
           {project.description}
         </Typography>
         <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
@@ -96,11 +96,11 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               size="small"
               sx={{
                 fontSize: "0.75rem",
-                backgroundColor: "#18181b",
-                border: "1px solid #27272a",
-                color: "#a1a1aa",
+                backgroundColor: "var(--t-chip)",
+                border: "1px solid var(--t-line)",
+                color: "var(--t-ink3)",
                 fontWeight: 400,
-                "&:hover": { borderColor: "#3f3f46", color: "#ffffff" },
+                "&:hover": { borderColor: "var(--t-line2)", color: "var(--t-ink)" },
                 transition: "all 0.2s ease",
               }}
             />
@@ -114,10 +114,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               rel="noopener noreferrer"
               size="small"
               sx={{
-                backgroundColor: "#18181b",
-                border: "1px solid #27272a",
-                color: "#a1a1aa",
-                "&:hover": { borderColor: "#3f3f46", color: "#ffffff" },
+                backgroundColor: "var(--t-chip)",
+                border: "1px solid var(--t-line)",
+                color: "var(--t-ink3)",
+                "&:hover": { borderColor: "var(--t-line2)", color: "var(--t-ink)" },
                 transition: "all 0.2s ease",
               }}
             >
@@ -131,10 +131,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               rel="noopener noreferrer"
               size="small"
               sx={{
-                backgroundColor: "#18181b",
-                border: "1px solid #27272a",
-                color: "#a1a1aa",
-                "&:hover": { borderColor: "#3f3f46", color: "#ffffff" },
+                backgroundColor: "var(--t-chip)",
+                border: "1px solid var(--t-line)",
+                color: "var(--t-ink3)",
+                "&:hover": { borderColor: "var(--t-line2)", color: "var(--t-ink)" },
                 transition: "all 0.2s ease",
               }}
             >

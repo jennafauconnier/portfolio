@@ -214,9 +214,9 @@ export default function SpineCaseStudy() {
 
       <BulletedList
         items={[
-          "<b style='color:#e4e4e7'>Le coût est dans les décisions</b> : onze centimes de conception, zéro de code — mais trois allers-retours de design, parce que le brief ne disait pas ce qu'il interdisait.",
-          "<b style='color:#e4e4e7'>Un modèle ne mesure pas</b> : le calcul de contraste est passé dans un script, et le goût est redevenu une décision humaine.",
-          "<b style='color:#e4e4e7'>La critique vaut mieux que la génération</b> : le même pipeline qui produit trois directions moyennes produit une critique utile.",
+          "<b style='color:var(--t-ink)'>Le coût est dans les décisions</b> : onze centimes de conception, zéro de code — mais trois allers-retours de design, parce que le brief ne disait pas ce qu'il interdisait.",
+          "<b style='color:var(--t-ink)'>Un modèle ne mesure pas</b> : le calcul de contraste est passé dans un script, et le goût est redevenu une décision humaine.",
+          "<b style='color:var(--t-ink)'>La critique vaut mieux que la génération</b> : le même pipeline qui produit trois directions moyennes produit une critique utile.",
         ]}
       />
 

@@ -9,14 +9,14 @@ import { Children, type ReactNode } from "react";
 /* Palette commune à toutes les études de cas du portfolio. */
 export const C = {
   accent: "#2563eb",
-  white: "#ffffff",
-  wash: "#e4e4e7",
-  soft: "#d4d4d8",
-  body: "#a1a1aa",
-  muted: "#71717a",
-  faint: "#52525b",
-  line: "#27272a",
-  card: "rgba(255,255,255,0.02)",
+  white: "var(--t-ink)",
+  wash: "var(--t-ink)",
+  soft: "var(--t-ink2)",
+  body: "var(--t-ink3)",
+  muted: "var(--t-muted)",
+  faint: "var(--t-muted)",
+  line: "var(--t-line)",
+  card: "var(--t-card)",
 };
 
 export function BackLink({ href, label = "Retour au projet" }: { href: string; label?: string }) {
@@ -192,7 +192,7 @@ export function Fence({ children }: { children: string }) {
         p: 3,
         borderRadius: 2,
         border: `1px solid ${C.line}`,
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "var(--t-surface)",
         color: C.soft,
         fontSize: "0.82rem",
         lineHeight: 1.7,
@@ -217,7 +217,7 @@ export function GhostButton({ href, children }: { href: string; children: ReactN
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      sx={{ borderColor: C.line, color: C.body, textTransform: "none", "&:hover": { borderColor: "#3f3f46", color: C.white } }}
+      sx={{ borderColor: C.line, color: C.body, textTransform: "none", "&:hover": { borderColor: "var(--t-line2)", color: C.white } }}
     >
       {children}
     </Button>

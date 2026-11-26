@@ -8,7 +8,7 @@ export default function HeroSection() {
     <Box
       sx={{
         background: "transparent",
-        color: "#ffffff",
+        color: "var(--t-ink)",
         py: { xs: 12, md: 16 },
         pt: { xs: 16, md: 20 },
         textAlign: "center",
@@ -25,7 +25,7 @@ export default function HeroSection() {
             lineHeight: 1.05,
             mb: 2,
             letterSpacing: "-0.03em",
-            background: "linear-gradient(135deg, #ffffff 0%, #94a3b8 100%)",
+            background: "linear-gradient(135deg, var(--t-ink) 0%, #94a3b8 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -37,7 +37,7 @@ export default function HeroSection() {
           variant="h5"
           sx={{
             mb: 5,
-            color: "#71717a",
+            color: "var(--t-muted)",
             fontSize: { xs: "1rem", md: "1.25rem" },
             fontWeight: 400,
             letterSpacing: "0.05em",
@@ -59,10 +59,10 @@ export default function HeroSection() {
               variant="contained"
               size="large"
               sx={{
-                backgroundColor: "#ffffff",
+                backgroundColor: "var(--t-ink)",
                 color: "#000000",
                 "&:hover": {
-                  backgroundColor: "#e4e4e7",
+                  backgroundColor: "var(--t-ink)",
                   transform: "translateY(-2px)",
                 },
                 px: 4,
@@ -82,10 +82,10 @@ export default function HeroSection() {
               variant="outlined"
               size="large"
               sx={{
-                borderColor: "#27272a",
-                color: "#ffffff",
+                borderColor: "var(--t-line)",
+                color: "var(--t-ink)",
                 "&:hover": {
-                  borderColor: "#52525b",
+                  borderColor: "var(--t-muted)",
                   backgroundColor: "rgba(255, 255, 255, 0.04)",
                   transform: "translateY(-2px)",
                 },

@@ -24,7 +24,7 @@ export default function About() {
                 left: -3,
                 right: -3,
                 bottom: -3,
-                background: "linear-gradient(135deg, #27272a 0%, #3f3f46 100%)",
+                background: "linear-gradient(135deg, var(--t-line) 0%, var(--t-line2) 100%)",
                 borderRadius: "50%",
                 zIndex: 0,
               },
@@ -50,7 +50,7 @@ export default function About() {
               sx={{
                 fontWeight: 300,
                 letterSpacing: "-0.02em",
-                color: "#ffffff",
+                color: "var(--t-ink)",
                 mb: 3,
               }}
             >
@@ -58,7 +58,7 @@ export default function About() {
             </Typography>
             <Typography
               variant="body1"
-              sx={{ fontSize: "1.1rem", lineHeight: 1.8, color: "#d4d4d8" }}
+              sx={{ fontSize: "1.1rem", lineHeight: 1.8, color: "var(--t-ink2)" }}
             >
               Bonjour ! Je suis une développeuse passionnée par la création
               d&apos;applications mobiles performantes. Ayant une expertise en
@@ -67,7 +67,7 @@ export default function About() {
             </Typography>
             <Typography
               variant="body1"
-              sx={{ fontSize: "1.1rem", lineHeight: 1.8, color: "#71717a" }}
+              sx={{ fontSize: "1.1rem", lineHeight: 1.8, color: "var(--t-muted)" }}
             >
               Mon approche combine une attention particulière aux détails avec
               une volonté constante d&apos;apprendre et d&apos;adopter les
