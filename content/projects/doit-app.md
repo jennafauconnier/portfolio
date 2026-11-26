@@ -19,7 +19,6 @@ images:
   - /images/doit/12-validate-task.png
 github: "https://github.com/jennafauconnier/doit"
 featured: true
-phoneView: true
 ---
 
 ## Description

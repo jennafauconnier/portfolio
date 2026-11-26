@@ -172,7 +172,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </Box>
           ) : project.images && project.images.length > 0 ? (
             <Box sx={{ mb: 4, borderRadius: 2, overflow: "hidden" }}>
-              <ImageCarousel images={project.images} alt={project.title} phoneView={project.phoneView} />
+              <ImageCarousel images={project.images} alt={project.title}  />
             </Box>
           ) : project.image ? (
             <Box

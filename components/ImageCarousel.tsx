@@ -9,10 +9,9 @@ import Image from "next/image";
 interface ImageCarouselProps {
   images: string[];
   alt: string;
-  phoneView?: boolean;
 }
 
-export default function ImageCarousel({ images, alt, phoneView = false }: ImageCarouselProps) {
+export default function ImageCarousel({ images, alt }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
 
@@ -35,8 +34,8 @@ export default function ImageCarousel({ images, alt, phoneView = false }: ImageC
         sx={{
           position: "relative",
           width: "100%",
-          aspectRatio: phoneView ? "9 / 19.5" : "9 / 16",
-          maxHeight: phoneView ? 720 : 700,
+          aspectRatio: "9 / 16",
+          maxHeight: 700,
           maxWidth: 380,
           mx: "auto",
           backgroundColor: "#0a0a0a",
@@ -67,7 +66,7 @@ export default function ImageCarousel({ images, alt, phoneView = false }: ImageC
             alt={`${alt} - ${currentIndex + 1}`}
             fill
             sizes="380px"
-            style={{ objectFit: phoneView ? "cover" : "contain", objectPosition: "center" }}
+            style={{ objectFit: "contain" }}
             onError={() => setImageError(true)}
             priority={currentIndex === 0}
           />
